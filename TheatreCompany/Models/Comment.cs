@@ -13,7 +13,7 @@ namespace TheatreCompany.Models
         public int CommentId { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Description { get; set; }
+        public string Body { get; set; }
 
         [Display(Name = "Date Posted")]
         [DataType(DataType.DateTime)]
