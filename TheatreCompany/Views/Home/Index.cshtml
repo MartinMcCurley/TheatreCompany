@@ -25,70 +25,60 @@
 <br />
 <hr />
 
-<table class="table">
-    <tr>
-        <th>
+<ul class="list">
+    @*<li>
+        <div>
             @Html.DisplayNameFor(model => model.Category.Name)
-        </th>
-        <th>
+        </div>
+        <div>
             @Html.DisplayNameFor(model => model.User.UserName)
-        </th>
-        <th>
+        </div>
+        <div>
             @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
+        </div>
+        <div>
             @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
+        </div>
+        <div>
             @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th>
+        </div>
+        <div>
             @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
+        </div>
+        <div>
             @Html.DisplayNameFor(model => model.DatePosted)
-        </th>
+        </div>
         <th></th>
-    </tr>
+    </li>*@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
+        <li>
+            <div>
                 @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
+                <br />
                 @Html.DisplayFor(modelItem => item.User.UserName)
-            </td>
-            <td>
+                <br />
                 @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
+                <br />
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
+                <br />
                 @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
+                <br />
                 @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
+                <br />
                 @Html.DisplayFor(modelItem => item.DatePosted)
-            </td>
-            <td>
+                <br />
                 @if (item.DateExpired <= DateTime.Now)
                 {
                     <b>Expired</b>
                 }
-
-            </td>
-
-            <td>
+                <br />
 
                 | @Html.ActionLink("Details", "Details", new { id = item.PostId }) |
 
-            </td>
-        </tr>
+            </div>
+        </li>
     }
 
-</table>
+</ul>
