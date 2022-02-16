@@ -159,9 +159,7 @@ namespace TheatreCompany.Models
                     var post1 = new Post()
                     {
                         Title = "House For Sale",
-                        Description = "Beautiful 5 bedroom detached house",
-                        Location = "Glasgow",
-                        Price = 145000m,
+                        Body = "Beautiful 5 bedroom detached house",
                         DatePosted = new DateTime(2019, 1, 1, 8, 0, 15), //this is the date when the post/ad was created
                         DateExpired = new DateTime(2019, 1, 1, 8, 0, 15).AddDays(14), //the post will expire after 14 days
                         User = member2,
@@ -175,9 +173,7 @@ namespace TheatreCompany.Models
                     var post2 = new Post()
                     {
                         Title = "Hyunday Tucson",
-                        Description = "Beautiful 2016 Hyunday 5Dr",
-                        Location = "Edinburgh",
-                        Price = 14000m,
+                        Body = "Beautiful 2016 Hyunday 5Dr",
                         DatePosted = new DateTime(2019, 5, 25, 8, 0, 15),
                         DateExpired = new DateTime(2019, 5, 25, 8, 0, 15).AddDays(14),
                         User = member2,
@@ -189,9 +185,7 @@ namespace TheatreCompany.Models
                     var post3 = new Post()
                     {
                         Title = "Audi Q5",
-                        Description = "Beautiful 2019 Audi Q5",
-                        Location = "Aberdeen",
-                        Price = 56000m,
+                        Body = "Beautiful 2019 Audi Q5",
                         DatePosted = new DateTime(2019, 1, 25, 6, 0, 15),
                         DateExpired = new DateTime(2019, 1, 25, 6, 0, 15).AddDays(14),
                         User = member1,
@@ -203,9 +197,7 @@ namespace TheatreCompany.Models
                     var post4 = new Post()
                     {
                         Title = "Lhasso Apso",
-                        Description = "Beautiful 2 years old Lhasso Apso",
-                        Location = "Galsgow",
-                        Price = 500m,
+                        Body = "Beautiful 2 years old Lhasso Apso",
                         DatePosted = new DateTime(2019, 3, 5, 8, 0, 15),
                         DateExpired = new DateTime(2019, 3, 5, 8, 0, 15).AddDays(14),
                         User = member2,
@@ -217,9 +209,7 @@ namespace TheatreCompany.Models
                     var post5 = new Post()
                     {
                         Title = "Mercedes Benz A180",
-                        Description = "Beautiful 2018 Mercedes Benz class A180",
-                        Location = "Edinburgh",
-                        Price = 34000m,
+                        Body = "Beautiful 2018 Mercedes Benz class A180",
                         DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
                         DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
@@ -231,9 +221,7 @@ namespace TheatreCompany.Models
                     var post6 = new Post()
                     {
                         Title = "Hyunday Tucson",
-                        Description = "Beautiful 2017 Hyunday 5Dr",
-                        Location = "Edinburgh",
-                        Price = 14000m,
+                        Body = "Beautiful 2017 Hyunday 5Dr",
                         DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
                         DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
@@ -251,9 +239,31 @@ namespace TheatreCompany.Models
                         DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
                         DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
-                        Post = post6
+                        Post = post1
                     };
                     context.Comments.Add(Comment1p1);
+
+                    // Add Comment
+                    var Comment1p2 = new Comment()
+                    {
+                        Description = "too many Doors really too many",
+                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
+                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
+                        User = member2,
+                        Post = post1
+                    };
+                    context.Comments.Add(Comment1p2);
+
+                    // Add Comment
+                    var Comment2p1 = new Comment()
+                    {
+                        Description = "testy test",
+                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
+                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
+                        User = member2,
+                        Post = post2
+                    };
+                    context.Comments.Add(Comment2p1);
 
                     // save the changes to the database
                     context.SaveChanges();
