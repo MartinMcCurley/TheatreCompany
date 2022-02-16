@@ -22,12 +22,7 @@ namespace TheatreCompany.Models
         public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Description { get; set; }
-
-        public string Location { get; set; }
-
-        [DataType(DataType.Currency)]
-        public decimal Price { get; set; }
+        public string Body { get; set; }
 
         [Display(Name = "Date Posted")]
         [DataType(DataType.DateTime)]

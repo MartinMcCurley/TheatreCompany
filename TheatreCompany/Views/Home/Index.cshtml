@@ -54,32 +54,23 @@
     @foreach (var item in Model)
     {
     <div>
-        @Html.DisplayFor(modelItem => item.Category.Name)
-        <br />
-        @Html.DisplayFor(modelItem => item.User.UserName)
-        <br />
+        @*@Html.DisplayFor(modelItem => item.Category.Name)
+        <br />*@
         @Html.DisplayFor(modelItem => item.Title)
         <br />
-        @Html.DisplayFor(modelItem => item.Description)
+        @Html.DisplayFor(modelItem => item.Body)
         <br />
-        @Html.DisplayFor(modelItem => item.Location)
-        <br />
-        @Html.DisplayFor(modelItem => item.Price)
-        <br />
+        @Html.DisplayFor(modelItem => item.User.UserName) |
         @Html.DisplayFor(modelItem => item.DatePosted)
-        <br />
-        @if (item.DateExpired <= DateTime.Now)
-        {
-            <b>Expired</b>
-        }
-        <br />
 
-        | @Html.ActionLink("Details", "Details", new { id = item.PostId }) |
-
+        | @Html.ActionLink("Details", "Details", new { id = item.PostId })
+        <br />
         @foreach (var com in item.Comments)
         {
             @Html.DisplayFor(modelItem => com.Description)
+            <br />
         }
+
     </div>
     }
 
