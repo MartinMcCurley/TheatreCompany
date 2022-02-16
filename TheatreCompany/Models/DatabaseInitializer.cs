@@ -251,9 +251,31 @@ namespace TheatreCompany.Models
                         DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
                         DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
-                        Post = post6
+                        Post = post1
                     };
                     context.Comments.Add(Comment1p1);
+
+                    // Add Comment
+                    var Comment1p2 = new Comment()
+                    {
+                        Description = "too many Doors really too many",
+                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
+                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
+                        User = member2,
+                        Post = post1
+                    };
+                    context.Comments.Add(Comment1p2);
+
+                    // Add Comment
+                    var Comment2p1 = new Comment()
+                    {
+                        Description = "testy test",
+                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
+                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
+                        User = member2,
+                        Post = post2
+                    };
+                    context.Comments.Add(Comment2p1);
 
                     // save the changes to the database
                     context.SaveChanges();

@@ -10,6 +10,11 @@ namespace TheatreCompany.Models
 {
     public class Post
     {
+        public Post()
+        {
+            Comments = new List<Comment>();
+        }
+
         [Key]
         public int PostId { get; set; }
 
@@ -34,6 +39,8 @@ namespace TheatreCompany.Models
         [DisplayFormat(DataFormatString = "{0:d}")] // Format as ShortDateTime
         public DateTime DateExpired { get; set; }
 
+
+
         //===================================================================================
         // Navigational Properties added using "System.ComponentModel.DataAnnotations.Schema"
         //===================================================================================
@@ -48,6 +55,8 @@ namespace TheatreCompany.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
+        // We declare a virtual list of comments 
+        public virtual ICollection<Comment> Comments { get; set; }
 
     }
 }
