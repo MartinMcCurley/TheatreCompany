@@ -235,7 +235,7 @@ namespace TheatreCompany.Models
                     // Add Comments
                     var Comment1p1 = new Comment()
                     {
-                        Description = "too many Doors",
+                        Body = "too many Doors",
                         DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
                         DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
@@ -246,7 +246,7 @@ namespace TheatreCompany.Models
                     // Add Comment
                     var Comment1p2 = new Comment()
                     {
-                        Description = "too many Doors really too many",
+                        Body = "too many Doors really too many",
                         DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
                         DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
@@ -257,7 +257,7 @@ namespace TheatreCompany.Models
                     // Add Comment
                     var Comment2p1 = new Comment()
                     {
-                        Description = "testy test",
+                        Body = "testy test",
                         DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
                         DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
