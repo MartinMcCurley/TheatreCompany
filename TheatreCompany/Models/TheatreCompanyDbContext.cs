@@ -15,6 +15,7 @@ namespace TheatreCompany.Models
         // These will create Categories and Posts tables in the db when app runs
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public TheatreCompanyDbContext()
             : base("TheatreCompanyConnection2", throwIfV1Schema: false)
