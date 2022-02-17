@@ -160,8 +160,6 @@ namespace TheatreCompany.Models
                     {
                         Title = "House For Sale",
                         Body = "Beautiful 5 bedroom detached house",
-                        DatePosted = new DateTime(2019, 1, 1, 8, 0, 15), //this is the date when the post/ad was created
-                        DateExpired = new DateTime(2019, 1, 1, 8, 0, 15).AddDays(14), //the post will expire after 14 days
                         User = member2,
                         Category = cat2
                     };
@@ -174,8 +172,6 @@ namespace TheatreCompany.Models
                     {
                         Title = "Hyunday Tucson",
                         Body = "Beautiful 2016 Hyunday 5Dr",
-                        DatePosted = new DateTime(2019, 5, 25, 8, 0, 15),
-                        DateExpired = new DateTime(2019, 5, 25, 8, 0, 15).AddDays(14),
                         User = member2,
                         Category = cat1
                     };
@@ -186,8 +182,6 @@ namespace TheatreCompany.Models
                     {
                         Title = "Audi Q5",
                         Body = "Beautiful 2019 Audi Q5",
-                        DatePosted = new DateTime(2019, 1, 25, 6, 0, 15),
-                        DateExpired = new DateTime(2019, 1, 25, 6, 0, 15).AddDays(14),
                         User = member1,
                         Category = cat1
                     };
@@ -198,8 +192,6 @@ namespace TheatreCompany.Models
                     {
                         Title = "Lhasso Apso",
                         Body = "Beautiful 2 years old Lhasso Apso",
-                        DatePosted = new DateTime(2019, 3, 5, 8, 0, 15),
-                        DateExpired = new DateTime(2019, 3, 5, 8, 0, 15).AddDays(14),
                         User = member2,
                         Category = cat5
                     };
@@ -210,8 +202,6 @@ namespace TheatreCompany.Models
                     {
                         Title = "Mercedes Benz A180",
                         Body = "Beautiful 2018 Mercedes Benz class A180",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
                         Category = cat1
                     };
@@ -222,8 +212,6 @@ namespace TheatreCompany.Models
                     {
                         Title = "Hyunday Tucson",
                         Body = "Beautiful 2017 Hyunday 5Dr",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
                         Category = cat1
                     };
@@ -236,8 +224,6 @@ namespace TheatreCompany.Models
                     var Comment1p1 = new Comment()
                     {
                         Body = "too many Doors",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
                         Post = post1
                     };
@@ -247,8 +233,6 @@ namespace TheatreCompany.Models
                     var Comment1p2 = new Comment()
                     {
                         Body = "too many Doors really too many",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
                         Post = post1
                     };
@@ -258,8 +242,6 @@ namespace TheatreCompany.Models
                     var Comment2p1 = new Comment()
                     {
                         Body = "testy test",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
                         Post = post2
                     };

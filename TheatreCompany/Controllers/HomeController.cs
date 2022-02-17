@@ -20,7 +20,7 @@ namespace TheatreCompany.Controllers
         {
             // Get all posts, include category for each post, include the user who created the post
             // and order the posts from most current to old posts
-            var posts = context.Posts.Include(p => p.Category).Include(p => p.User).OrderByDescending(p => p.DatePosted);
+            var posts = context.Posts.Include(p => p.Category).Include(p => p.User);
 
             // Send the list of categories over the index page so we can display them
             ViewBag.Categories = context.Categories.ToList();
@@ -70,7 +70,7 @@ namespace TheatreCompany.Controllers
         [HttpPost]
         public ViewResult Index(string SearchString)
         {
-            var posts = context.Posts.Include(p => p.Category).Include(p => p.User).Where(p => p.Category.Name.Equals(SearchString.Trim())).OrderByDescending(p => p.DatePosted);
+            var posts = context.Posts.Include(p => p.Category).Include(p => p.User).Where(p => p.Category.Name.Equals(SearchString.Trim()));
           
             return View(posts.ToList());
         }
