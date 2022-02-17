@@ -23,12 +23,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Body)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DatePosted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateExpired)
-        </th>
         <th></th>
     </tr>
 
@@ -45,12 +39,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Body)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DatePosted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateExpired)
         </td>
         <td>
             @Html.ActionLink("Delete", "DeletePost", new { id=item.PostId })

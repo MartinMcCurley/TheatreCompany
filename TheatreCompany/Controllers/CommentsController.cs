@@ -49,7 +49,7 @@ namespace TheatreCompany.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CommentId,Body,DatePosted,DateExpired,UserId,PostId")] Comment comment)
+        public ActionResult Create([Bind(Include = "CommentId,Body,UserId,PostId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace TheatreCompany.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentId,Body,DatePosted,DateExpired,UserId,PostId")] Comment comment)
+        public ActionResult Edit([Bind(Include = "CommentId,Body,UserId,PostId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
