@@ -1,51 +1,190 @@
 ﻿@model IEnumerable<TheatreCompany.Models.Post>
 
-@{
-    ViewBag.Title = "Index";
-}
+<div id="content">
 
-<h2>Index</h2>
+    <!-- page-banner-section
+        ================================================== -->
+    <section class="page-banner-section">
+        <div class="container">
+            <h1>Announcements</h1>
+            <p>Welcome to our posts</p>
+        </div>
+        <div class="info-box">
+            <p>
+                <i class="fa fa-phone-square"></i>
+                0333 009 6690
+                <span class="divider-line"></span>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Body)
-        </th>
-        <th></th>
-    </tr>
+                <i class="fa fa-envelope-square"></i>
+                info@TheatreCompany.com
+            </p>
+        </div>
+    </section>
+    <!-- End page-banner section -->
+    <!-- blog-section
+        ================================================== -->
+    <section class="blog-section">
+        <div class="container">
+            <div class="blog-box">
+                @foreach (var item in Model)
+                {
+                    <div class="blog-post post-list-style">
+                        <a href="single-post.html" class="post-thumbnail">
+                            <img src="upload/blog-list/post-img-1.jpg" alt="">
+                        </a>
+                        <div class="post-content">
+                            <ul class="meta-list">
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-folder-open"></i>
+                                        @Html.DisplayFor(modelItem => item.Category.Name)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-clock"></i>
+                                        By: @Html.DisplayFor(modelItem => item.User.FirstName)
+                                    </a>
+                                </li>
+                            </ul>
+                            <h3><a href="@Url.Action("Details", new { id=item.PostId })">@Html.DisplayFor(modelItem => item.Title)</a></h3>
+                            <p>@Html.DisplayFor(modelItem => item.Body)</p>
+                            <a class="button-one" href="@Url.Action("Details", new { id=item.PostId })"><span>Read More</span></a>
+                        </div>
+                    </div>
+                }
+                    <div class="blog-post post-list-style">
+                        <a href="single-post.html" class="post-thumbnail">
+                            <img src="upload/blog-list/post-img-2.jpg" alt="">
+                        </a>
+                        <div class="post-content">
+                            <ul class="meta-list">
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-folder-open"></i>
+                                        Business
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-clock"></i>
+                                        9 Hours ago
+                                    </a>
+                                </li>
+                            </ul>
+                            <h3><a href="single-post.html">Give your dreams a shape of reality</a></h3>
+                            <p>Individuals require a place to live, work, play, learn, shop, and eat. Architects are in charge of planning these spots and secure the general wellbeing and welfare. This second obligation expects...</p>
+                            <a class="button-one" href="single-post.html"><span>Read More</span></a>
+                        </div>
+                    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Body)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PostId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PostId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PostId })
-        </td>
-    </tr>
-}
+                    <div class="blog-post post-list-style">
+                        <a href="single-post.html" class="post-thumbnail">
+                            <img src="upload/blog-list/post-img-3.jpg" alt="">
+                        </a>
+                        <div class="post-content">
+                            <ul class="meta-list">
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-folder-open"></i>
+                                        Business
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-clock"></i>
+                                        9 Hours ago
+                                    </a>
+                                </li>
+                            </ul>
+                            <h3><a href="single-post.html">The art of building</a></h3>
+                            <p>Individuals require a place to live, work, play, learn, shop, and eat. Architects are in charge of planning these spots and secure the general wellbeing and welfare. This second obligation expects...</p>
+                            <a class="button-one" href="single-post.html"><span>Read More</span></a>
+                        </div>
+                    </div>
 
-</table>
+                    <div class="blog-post post-list-style">
+                        <a href="single-post.html" class="post-thumbnail">
+                            <img src="upload/blog-list/post-img-4.jpg" alt="">
+                        </a>
+                        <div class="post-content">
+                            <ul class="meta-list">
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-folder-open"></i>
+                                        Business
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-clock"></i>
+                                        9 Hours ago
+                                    </a>
+                                </li>
+                            </ul>
+                            <h3><a href="single-post.html">A whole different kind of designing</a></h3>
+                            <p>Individuals require a place to live, work, play, learn, shop, and eat. Architects are in charge of planning these spots and secure the general wellbeing and welfare. This second obligation expects...</p>
+                            <a class="button-one" href="single-post.html"><span>Read More</span></a>
+                        </div>
+                    </div>
+
+                    <div class="blog-post post-list-style">
+                        <a href="single-post.html" class="post-thumbnail">
+                            <img src="upload/blog-list/post-img-5.jpg" alt="">
+                        </a>
+                        <div class="post-content">
+                            <ul class="meta-list">
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-folder-open"></i>
+                                        Business
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-clock"></i>
+                                        9 Hours ago
+                                    </a>
+                                </li>
+                            </ul>
+                            <h3><a href="single-post.html">Building on the ninth cloud</a></h3>
+                            <p>Individuals require a place to live, work, play, learn, shop, and eat. Architects are in charge of planning these spots and secure the general wellbeing and welfare. This second obligation expects...</p>
+                            <a class="button-one" href="single-post.html"><span>Read More</span></a>
+                        </div>
+                    </div>
+
+                    <div class="blog-post post-list-style">
+                        <a href="single-post.html" class="post-thumbnail">
+                            <img src="upload/blog-list/post-img-6.jpg" alt="">
+                        </a>
+                        <div class="post-content">
+                            <ul class="meta-list">
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-folder-open"></i>
+                                        Business
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-clock"></i>
+                                        9 Hours ago
+                                    </a>
+                                </li>
+                            </ul>
+                            <h3><a href="single-post.html">Providing innovative designs</a></h3>
+                            <p>Individuals require a place to live, work, play, learn, shop, and eat. Architects are in charge of planning these spots and secure the general wellbeing and welfare. This second obligation expects...</p>
+                            <a class="button-one" href="single-post.html"><span>Read More</span></a>
+                        </div>
+                    </div>
+
+                </div>
+            <ul class="pagination-list">
+                <li><a href="#" class="active">01</a></li>
+                <li><a href="#">02</a></li>
+                <li><a href="#">03</a></li>
+            </ul>
+        </div>
+    </section>
+    <!-- End blog-section -->
+</div>
