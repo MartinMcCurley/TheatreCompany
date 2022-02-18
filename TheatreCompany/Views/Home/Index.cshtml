@@ -1,54 +1,98 @@
-﻿@model IEnumerable<TheatreCompany.Models.Post>
-@using TheatreCompany.Models
+﻿<div id="content">
 
-@{
-    ViewBag.Title = "Index";
-}
 
-@*<br />
-    <hr />
-    @foreach (var item in ViewBag.Categories)
-    {
-        <b> @item.Name |</b>
-    }
-    <br />
-    <hr />*@
+    <div class="info-box">
+        <p>
+            <i class="fa fa-phone-square"></i>
+            0333 009 6690
+            <span class="divider-line"></span>
 
-@using (Html.BeginForm())
-{
-    <p>
-        Find posts by category: @Html.TextBox("SearchString")
-
-        <input type="submit" value="Search" />
-    </p>
-}
-<br />
-<hr />
-
-<ul class="list">
-
-    @foreach (var item in Model)
-    {
-    <div>
-        @*@Html.DisplayFor(modelItem => item.Category.Name)
-        <br />*@
-        @Html.DisplayFor(modelItem => item.Title)
-        <br />
-        @Html.DisplayFor(modelItem => item.Body)
-        <br />
-        @Html.DisplayFor(modelItem => item.User.UserName) |
-
-        | @Html.ActionLink("Details", "Details", new { id = item.PostId })
-        <br />
-        @foreach (var com in item.Comments)
-        {
-            @Html.DisplayFor(modelItem => com.Body)
-            <br />
-        }
-
+            <i class="fa fa-envelope-square"></i>
+            info@TheatreCompany.com
+        </p>
     </div>
-    }
 
+    <!-- scroller-section
+        ================================================== -->
+    <section class="scroller-section">
 
+        <div class="scroller-box owl-scroller">
+            <div class="owl-carousel owl-theme" data-num="3">
 
-</ul>
+                <div class="item">
+                    <div class="scroller-post">
+                        <div class="image-holder">
+                            <img src="upload/home5/s1.jpg" alt="s1">
+                        </div>
+                        <div class="hover-box">
+                            <span>01</span>
+                            <a class="cat-link" href="portfolio.html">buildings</a>
+                            <h3><a href="single-project.html">The concept for better living</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="scroller-post">
+                        <div class="image-holder">
+                            <img src="upload/home5/s2.jpg" alt="s2">
+                        </div>
+                        <div class="hover-box">
+                            <span>02</span>
+                            <a class="cat-link" href="portfolio.html">buildings</a>
+                            <h3><a href="single-project.html">Dreams under construction</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="scroller-post">
+                        <div class="image-holder">
+                            <img src="upload/home5/s3.jpg" alt="s3">
+                        </div>
+                        <div class="hover-box">
+                            <span>03</span>
+                            <a class="cat-link" href="portfolio.html">buildings</a>
+                            <h3><a href="single-project.html">Shaping for a better future</a></h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <div class="scroller-post">
+                        <div class="image-holder">
+                            <img src="upload/home5/s1.jpg" alt="s1">
+                        </div>
+                        <div class="hover-box">
+                            <span>04</span>
+                            <a class="cat-link" href="portfolio.html">buildings</a>
+                            <h3><a href="single-project.html">The concept for better living</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="scroller-post">
+                        <div class="image-holder">
+                            <img src="upload/home5/s2.jpg" alt="s2">
+                        </div>
+                        <div class="hover-box">
+                            <span>05</span>
+                            <a class="cat-link" href="portfolio.html">buildings</a>
+                            <h3><a href="single-project.html">Dreams under construction</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <p class="fixed-notifier">
+            Slide by scroll
+            <span></span>
+        </p>
+
+    </section>
+    <!-- End scroller-section -->
+
+</div>

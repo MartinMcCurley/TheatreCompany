@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TheatreCompany.Models.Post>
+@using TheatreCompany.Models
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@*<br />
+    <hr />
+    @foreach (var item in ViewBag.Categories)
+    {
+        <b> @item.Name |</b>
+    }
+    <br />
+    <hr />*@
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find posts by category: @Html.TextBox("SearchString")
+
+        <input type="submit" value="Search" />
+    </p>
+}
+<br />
+<hr />
+
+<ul class="list">
+
+    @foreach (var item in Model)
+    {
+    <div>
+        @*@Html.DisplayFor(modelItem => item.Category.Name)
+        <br />*@
+        @Html.DisplayFor(modelItem => item.Title)
+        <br />
+        @Html.DisplayFor(modelItem => item.Body)
+        <br />
+        @Html.DisplayFor(modelItem => item.User.UserName) |
+
+        | @Html.ActionLink("Details", "Details", new { id = item.PostId })
+        <br />
+        @foreach (var com in item.Comments)
+        {
+            @Html.DisplayFor(modelItem => com.Body)
+            <br />
+        }
+
+    </div>
+    }
+
+
+
+</ul>
