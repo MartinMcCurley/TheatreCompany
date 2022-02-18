@@ -266,6 +266,12 @@
     <Content Include="images\revolution-icons\small_left.png" />
     <Content Include="images\revolution-icons\small_right.png" />
     <Content Include="images\revolution-icons\timer.png" />
+    <Content Include="images\s1.jpg" />
+    <Content Include="images\s2.jpg" />
+    <Content Include="images\s3.jpg" />
+    <Content Include="images\s4.jpg" />
+    <Content Include="images\s5.jpg" />
+    <Content Include="images\s6.jpg" />
     <Content Include="images\ui-icons_444444_256x240.png" />
     <Content Include="images\ui-icons_555555_256x240.png" />
     <Content Include="images\ui-icons_777620_256x240.png" />
@@ -415,6 +421,9 @@
     <Content Include="upload\home5\s1.jpg" />
     <Content Include="upload\home5\s2.jpg" />
     <Content Include="upload\home5\s3.jpg" />
+    <Content Include="upload\home5\s4.jpg" />
+    <Content Include="upload\home5\s5.jpg" />
+    <Content Include="upload\home5\s6.jpg" />
     <Content Include="upload\home6\H6_01.jpg" />
     <Content Include="upload\home6\H6_02.jpg" />
     <Content Include="upload\home6\H6_03.jpg" />
@@ -623,6 +632,7 @@
     <Content Include="upload\single-project\.DS_Store" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Home\IndexBACKUP.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
