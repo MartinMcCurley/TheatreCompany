@@ -24,7 +24,7 @@ namespace TheatreCompany.Controllers
             return View();
         }
 
-        // View All Posts Action
+        // View All Users Action
         [Authorize(Roles = "Admin")]
         public ActionResult ViewUsers()
         {
@@ -181,44 +181,44 @@ namespace TheatreCompany.Controllers
         }
         #endregion
 
-        #region Comment Actions
-        // GET: Comments
-        public ActionResult ViewAllComments()
-        {
-            // Return the ViewAllComments view that displays a list of Comments
-            return View(db.Comments.ToList());
-        }
+        //#region Comment Actions
+        //// GET: Comments
+        //public ActionResult ViewAllComments()
+        //{
+        //    // Return the ViewAllComments view that displays a list of Comments
+        //    return View(db.Comments.ToList());
+        //}
 
-        // POST: Comments/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CommentId,Name")] Comment comment)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Comments.Add(comment);
-                db.SaveChanges();
-                return RedirectToAction("ViewAllComments");
-            }
+        //// POST: Comments/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "CommentId,Name")] Comment comment)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Comments.Add(comment);
+        //        db.SaveChanges();
+        //        return RedirectToAction("ViewAllComments");
+        //    }
 
-            return View(comment);
-        }
+        //    return View(comment);
+        //}
 
-        // GET: Comments/Edit/5
-        public ActionResult EditComment(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(comment);
-        }
-        #endregion
+        //// GET: Comments/Edit/5
+        //public ActionResult EditComment(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Comment comment = db.Comments.Find(id);
+        //    if (comment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(comment);
+        //}
+        //#endregion
 
 
         protected override void Dispose(bool disposing)

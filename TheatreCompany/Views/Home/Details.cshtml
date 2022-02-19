@@ -3,68 +3,53 @@
 @{
     ViewBag.Title = "Details";
 }
+<div id="content">
+    <h2>@Model.Title</h2>
 
-<h2>@Model.Title</h2>
+    <div>
 
-<div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </dt>
 
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.FirstName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Body)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Body)
+            </dd>
 
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DatePosted)
-        </dt>
+        </dl>
+    </div>
+    <p>
 
-        <dd>
-            @Html.DisplayFor(model => model.DatePosted)
-        </dd>
+        @Html.ActionLink("Back to List", "Index")
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateExpired)
-        </dt>
+        <a class="btn-sm" href="http://amazon.co.uk">Buy Now</a>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateExpired)
-        </dd>
-
-    </dl>
+    </p>
 </div>
-<p>
-
-    @Html.ActionLink("Back to List", "Index")
-
-    <a class="btn-sm" href="http://amazon.co.uk">Buy Now</a>
-
-</p>

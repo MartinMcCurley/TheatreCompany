@@ -24,17 +24,6 @@ namespace TheatreCompany.Models
         [DataType(DataType.MultilineText)]
         public string Body { get; set; }
 
-        [Display(Name = "Date Posted")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:d}")] // Format as ShortDateTime
-        public DateTime DatePosted { get; set; }
-
-        [Display(Name = "Date Expired")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:d}")] // Format as ShortDateTime
-        public DateTime DateExpired { get; set; }
-
-
 
         //===================================================================================
         // Navigational Properties added using "System.ComponentModel.DataAnnotations.Schema"

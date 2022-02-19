@@ -1,17 +1,107 @@
-﻿@{
-    ViewBag.Title = "Contact";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿<div id="content">
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<!-- page-banner-section
+    ================================================== -->
+    <section class="page-banner-section">
+        <div class="container">
+            <h1>Contact</h1>
+            <p>Excelling at the art</p>
+        </div>
+        <div class="info-box">
+            <p>
+                <i class="fa fa-phone-square"></i>
+                0333 009 6690
+                <span class="divider-line"></span>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+                <i class="fa fa-envelope-square"></i>
+                info@TheatreCompany.com
+            </p>
+        </div>
+    </section>
+<!-- End page-banner section -->
+<!-- contact-info-section
+    ================================================== -->
+<section class="contact-info-section">
+
+    <div class="container">
+        <div class="title-box">
+            <span>Get in touch</span>
+            <h2>Contact us</h2>
+        </div>
+        <div class="contact-info-box">
+            <div class="row g-0">
+
+                <div class="col-lg-4">
+                    <div class="contact-info-post">
+                        <i class="fas fa-phone"></i>
+                        <div class="info-content">
+                            <h4>Call Us</h4>
+                            <p>0333 009 6690</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="contact-info-post">
+                        <i class="fas fa-clock"></i>
+                        <div class="info-content">
+                            <h4>Opening Hours</h4>
+                            <p>Monday - Friday  /  08:00-17:00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="contact-info-post">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="info-content">
+                            <h4>Address</h4>
+                            <p>282 Hope St, Glasgow G2 3QA</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="contact-form-box">
+            <div class="row g-0">
+                <div class="col-lg-8">
+                    <form id="contact-form">
+                        <h4>Send message</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-line">
+                                    <label for="name"><i class="fas fa-user"></i></label>
+                                    <input name="name" id="name" type="text" placeholder="Name">
+                                </div>
+                                <div class="input-line">
+                                    <label for="mail"><i class="fas fa-envelope"></i></label>
+                                    <input name="mail" id="mail" type="text" placeholder="E-mail">
+                                </div>
+                                <div class="input-line">
+                                    <label for="website"><i class="fas fa-link"></i></label>
+                                    <input name="website" id="website" type="text" placeholder="Website">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-line">
+                                    <textarea name="comment" id="comment" placeholder="Message"></textarea>
+                                </div>
+                                <button type="submit" id="submit_contact">
+                                    Send message
+                                </button>
+                            </div>
+                        </div>
+                        <div id="msg"></div>
+                    </form>
+                </div>
+                <div class="col-lg-4">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- End contact-info-section -->
+</div>

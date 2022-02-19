@@ -91,10 +91,6 @@ namespace TheatreCompany.Controllers
             // As long as passed post isnt null then it is updated in the databse
             if (ModelState.IsValid)
             {
-                // Record the new date when the post was edited
-                post.DatePosted = DateTime.Now;
-                // Sets the expiry to 14 days
-                post.DateExpired = post.DatePosted.AddDays(14);
                 // Gets the id of the user that is logged in the system and assigned it as a foreign key in the post
                 post.UserId = User.Identity.GetUserId();
                 // Updates the database
@@ -175,11 +171,6 @@ namespace TheatreCompany.Controllers
             // If parameter is not null
             if(ModelState.IsValid)
             {
-                // Assign todays date toi date posted
-                post.DatePosted = DateTime.Now;
-
-                // Set expiry for 14 days
-                post.DateExpired = post.DatePosted.AddDays(14);
 
                 // Assign registered userid as foreign key as this is who created the post
                 post.UserId = User.Identity.GetUserId();

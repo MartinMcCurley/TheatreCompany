@@ -36,6 +36,13 @@ namespace TheatreCompany.Models
                     roleManager.Create(new IdentityRole("Member"));
                 }
 
+                // If the member roles doesnt exist...
+                if (!roleManager.RoleExists("Suspended"))
+                {
+                    // then we create a Member role
+                    roleManager.Create(new IdentityRole("Suspended"));
+                }
+
                 // Save the new roles to the database
                 context.SaveChanges();
 
@@ -43,7 +50,7 @@ namespace TheatreCompany.Models
                 // Create some users and assign them to different roles
                 //=====================================================
 
-                // The userManager object allows us to create uysers and store them in the database
+                // The userManager object allows us to create users and store them in the database
                 UserManager<User> userManager = new UserManager<User>(new UserStore<User>(context));
 
                 // If the users with the admin@theatrecompany.com username doesnt exist...
@@ -70,7 +77,9 @@ namespace TheatreCompany.Models
                         City = "Glasgow",
                         PostCode = "G1 67AD",
                         EmailConfirmed = true,
-                        PhoneNumber = "00447869145567"
+                        PhoneNumber = "00447869145567",
+                        IsActive = true,
+                        IsSuspended = false
                     };
 
                     // add the hashed password to user
@@ -78,6 +87,7 @@ namespace TheatreCompany.Models
 
                     // add the user to the role admin
                     userManager.AddToRole(admin.Id, "Admin");
+
 
                     //====================
                     //create a few members
@@ -94,7 +104,9 @@ namespace TheatreCompany.Models
                         City = "Coatbridge",
                         PostCode = "ML1 67AD",
                         EmailConfirmed = true,
-                        PhoneNumber = "90447979164499"
+                        PhoneNumber = "90447979164499",
+                        IsActive = true,
+                        IsSuspended = false
                     };
 
                     if (userManager.FindByName("member1@gmail.com") == null)
@@ -114,7 +126,9 @@ namespace TheatreCompany.Models
                         City = "Rutherglen",
                         PostCode = "61 7H0",
                         EmailConfirmed = true,
-                        PhoneNumber = "00447779163399"
+                        PhoneNumber = "00447779163399",
+                        IsActive = true,
+                        IsSuspended = false
                     };
 
                     if (userManager.FindByName("member2@yahoo.com") == null)
@@ -133,19 +147,14 @@ namespace TheatreCompany.Models
                     //=============================
 
                     //create a few categories
-                    var cat1 = new Category() { Name = "Motors" };
-                    var cat2 = new Category() { Name = "Property" };
-                    var cat3 = new Category() { Name = "Jobs" };
-                    var cat4 = new Category() { Name = "Services" };
-                    var cat5 = new Category() { Name = "Pets" };
-                    var cat6 = new Category() { Name = "For Sale" };
+                    var cat1 = new Category() { Name = "Announcements" };
+                    var cat2 = new Category() { Name = "Blog Posts" };
+                    var cat3 = new Category() { Name = "Reviews" };
 
                     //add each category to the Categories table
                     context.Categories.Add(cat1);
                     context.Categories.Add(cat2);
                     context.Categories.Add(cat3);
-                    context.Categories.Add(cat4);
-                    context.Categories.Add(cat5);
 
                     // save the changes to the database
                     context.SaveChanges();
@@ -158,12 +167,10 @@ namespace TheatreCompany.Models
                     //create a post
                     var post1 = new Post()
                     {
-                        Title = "House For Sale",
-                        Body = "Beautiful 5 bedroom detached house",
-                        DatePosted = new DateTime(2019, 1, 1, 8, 0, 15), //this is the date when the post/ad was created
-                        DateExpired = new DateTime(2019, 1, 1, 8, 0, 15).AddDays(14), //the post will expire after 14 days
-                        User = member2,
-                        Category = cat2
+                        Title = "Edinburgh Theatre New Addition!",
+                        Body = "The Theatre Royal Glasgow is home to Scotland’s resident companies and is a unique City Centre venue for conferences, and flexibility for many occasions. On March 2005 Theatre Group took over the management of the Theatre Royal Glasgow.",
+                        User = member1,
+                        Category = cat1
                     };
 
                     //add the post to the posts table
@@ -172,11 +179,9 @@ namespace TheatreCompany.Models
 
                     var post2 = new Post()
                     {
-                        Title = "Hyunday Tucson",
-                        Body = "Beautiful 2016 Hyunday 5Dr",
-                        DatePosted = new DateTime(2019, 5, 25, 8, 0, 15),
-                        DateExpired = new DateTime(2019, 5, 25, 8, 0, 15).AddDays(14),
-                        User = member2,
+                        Title = "Access to upper levels",
+                        Body = "Following the redevelopment, new lifts have opened up access, meaning for the first time in the theatre's 147 year history all audience members can reach all levels.",
+                        User = member1,
                         Category = cat1
                     };
                     context.Posts.Add(post2);
@@ -184,10 +189,8 @@ namespace TheatreCompany.Models
 
                     var post3 = new Post()
                     {
-                        Title = "Audi Q5",
-                        Body = "Beautiful 2019 Audi Q5",
-                        DatePosted = new DateTime(2019, 1, 25, 6, 0, 15),
-                        DateExpired = new DateTime(2019, 1, 25, 6, 0, 15).AddDays(14),
+                        Title = "Theatre Royal Glasgow Cafe",
+                        Body = "Customers can now enjoy the theatre during the day, in a new café - Vanilla Black at the Theatre - serving coffee, cakes and other tasty treats. Complimentary wi-fi is available for cafe-users.",
                         User = member1,
                         Category = cat1
                     };
@@ -196,23 +199,19 @@ namespace TheatreCompany.Models
 
                     var post4 = new Post()
                     {
-                        Title = "Lhasso Apso",
-                        Body = "Beautiful 2 years old Lhasso Apso",
-                        DatePosted = new DateTime(2019, 3, 5, 8, 0, 15),
-                        DateExpired = new DateTime(2019, 3, 5, 8, 0, 15).AddDays(14),
-                        User = member2,
-                        Category = cat5
+                        Title = "‘Aaraattu’ movie review: All-round star worship... and then some",
+                        Body = "For the script is replete with those, with a few landing well and a majority falling flat. In some sequences, like when Neyyatinkara Gopan (Mohanlal) visits an old ‘tharavadu’, the references come so thick and fast, that it is hard to keep up.",
+                        User = member1,
+                        Category = cat3
                     };
                     context.Posts.Add(post4);
 
 
                     var post5 = new Post()
                     {
-                        Title = "Mercedes Benz A180",
-                        Body = "Beautiful 2018 Mercedes Benz class A180",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
-                        User = member2,
+                        Title = "Opening Stage Revealed",
+                        Body = "The ones made by Uwe Boll, who deserves his own category (Alone in the Dark, House of the Dead). We’re using a 20-review minimum cutoff for inclusion from theatrical releases only, because it’s not just enough to make a questionable movie, critics need to witness the aftermath, too.",
+                        User = member1,
                         Category = cat1
                     };
                     context.Posts.Add(post5);
@@ -220,24 +219,22 @@ namespace TheatreCompany.Models
 
                     var post6 = new Post()
                     {
-                        Title = "Hyunday Tucson",
-                        Body = "Beautiful 2017 Hyunday 5Dr",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
-                        User = member2,
-                        Category = cat1
+                        Title = "48 ACTION MOVIES RANKED",
+                        Body = "It was in 1993 that Hollywood realized the dream of putting a video game movie up on the big screen with Super Mario Bros., and setting the stage for a long legacy of questionable choices, troubled productions, and gamers’ pixel tears left in their wake. But like the kid who just has to pump in one more quarter to reach for that high score, the studios keep on trying (while the fans just keep on hoping), and we’re celebrating that sort of sheer tenacity with this guide to the best video game movies (and plenty of the worst) ranked by Tomatometer!",
+                        User = member1,
+                        Category = cat2
                     };
                     context.Posts.Add(post6);
 
                     // save the changes to the database
                     context.SaveChanges();
 
+                    //=============
                     // Add Comments
+                    //=============
                     var Comment1p1 = new Comment()
                     {
                         Body = "too many Doors",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
                         Post = post1
                     };
@@ -247,9 +244,7 @@ namespace TheatreCompany.Models
                     var Comment1p2 = new Comment()
                     {
                         Body = "too many Doors really too many",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
-                        User = member2,
+                        User = member1,
                         Post = post1
                     };
                     context.Comments.Add(Comment1p2);
@@ -258,8 +253,6 @@ namespace TheatreCompany.Models
                     var Comment2p1 = new Comment()
                     {
                         Body = "testy test",
-                        DatePosted = new DateTime(2019, 4, 5, 5, 0, 15),
-                        DateExpired = new DateTime(2019, 4, 5, 5, 0, 15).AddDays(14),
                         User = member2,
                         Post = post2
                     };
