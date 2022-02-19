@@ -58,6 +58,8 @@ namespace TheatreCompany.Controllers
             return View(user);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: User/Edit/5
         public ActionResult Edit(string id)
         {
@@ -76,6 +78,8 @@ namespace TheatreCompany.Controllers
         // POST: User/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Street,City,PostCode,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)

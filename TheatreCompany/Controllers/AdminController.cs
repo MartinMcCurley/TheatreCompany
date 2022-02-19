@@ -1,8 +1,11 @@
-﻿using System;
+﻿using TheatreCompany.Models.ViewModels;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TheatreCompany.Models;
@@ -11,7 +14,7 @@ namespace TheatreCompany.Controllers
 {
 
     [Authorize(Roles = "Admin")] // This allows only admins to access the admin controller
-    public class AdminController : Controller
+    public class AdminController : AccountController
     {
         #region Admin roles
         // Create an instance of the database so we can access the tables
@@ -36,6 +39,106 @@ namespace TheatreCompany.Controllers
         }
 
         #endregion
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<ActionResult> ChangeRole(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (id == User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            User user = await UserManager.FindByIdAsync(id);
+            string oldRole = (await UserManager.GetRolesAsync(id)).Single();
+
+            var items = db.Roles.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.Name,
+                Selected = r.Name == oldRole
+            }).ToList();
+
+            return View(new ChangeRoleViewModel
+            {
+                UserName = user.UserName,
+                Roles = items,
+                OldRole = oldRole
+            });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("ChangeRole")]
+        public async Task<ActionResult> ChangeRoleConfirmed(string id, [Bind(Include = "Role")] ChangeRoleViewModel model)
+        {
+            if (id == User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (ModelState.IsValid)
+            {
+                User user = await UserManager.FindByIdAsync(id);
+                string oldRole = (await UserManager.GetRolesAsync(id)).Single();
+
+                if (oldRole == model.Role)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+
+                await UserManager.RemoveFromRoleAsync(id, oldRole);
+                await UserManager.AddToRoleAsync(id, model.Role);
+
+                if (model.Role == "Suspended")
+                {
+                    user.IsSuspended = true;
+
+                    await UserManager.UpdateAsync(user);
+                }
+                return RedirectToAction("Index", "Admin");
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (id == User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            User user = await UserManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            var comments = db.Comments.Where(o => o.UserId == id).ToList();
+            db.Comments.RemoveRange(comments);
+
+            var posts = db.Posts.Where(o => o.UserId == id).ToList();
+            db.Posts.RemoveRange(posts);
+            db.SaveChanges();
+
+            await UserManager.DeleteAsync(user);
+
+            return RedirectToAction("Index", "Admin");
+        }
+
+
 
         #region Category Actions
         // GET: Categories
