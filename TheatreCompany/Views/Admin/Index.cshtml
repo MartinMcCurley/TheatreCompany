@@ -1,11 +1,27 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿<div id="content">
+    <!-- page-banner-section
+    ================================================== -->
+    <section class="page-banner-section">
+        <div class="container">
+            <h1>Admin Home</h1>
+        </div>
+        <div class="info-box">
+            <p>
+                <i class="fa fa-phone-square"></i>
+                0333 009 6690
+                <span class="divider-line"></span>
 
-<h1>Admin Page</h1>
+                <i class="fa fa-envelope-square"></i>
+                info@TheatreCompany.com
+            </p>
+        </div>
+    </section>
+    <!-- End page-banner section -->
 
-@Html.ActionLink("View All Categories", "ViewAllCategories", "Admin", new { @class = "btn btn-success btn-lg" })
-@Html.ActionLink("View All Users", "ViewUsers", "Admin", new { @class = "btn btn-success btn-lg" })
-@Html.ActionLink("View All Posts", "ViewAllPosts", "Admin", new { @class = "btn btn-success btn-lg" })
+    <h1>Admin Page</h1>
 
+    @Html.ActionLink("View All Categories", "ViewAllCategories", "Admin", new { @class = "btn btn-success btn-lg" })
+    @Html.ActionLink("View All Users", "ViewUsers", "Admin", new { @class = "btn btn-success btn-lg" })
+    @Html.ActionLink("View All Posts", "ViewAllPosts", "Admin", new { @class = "btn btn-success btn-lg" })
+
+</div>
