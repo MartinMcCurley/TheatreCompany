@@ -49,3 +49,27 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<div id="comment-form">
+    <div id="respond" class="comment-respond">
+        <h3>Leave a comment </h3>
+        <form id="commentform" class="comment-form">
+            <div class="row">
+                <div class="col-lg">
+                    <div class="input-line">
+                        <label for="name">
+                            <i class="far fa-user"></i>
+                        </label>
+                        <input type="text" name="author" placeholder="Name" id="name" value="" aria-required="true">
+                    </div>
+                </div>
+                <div class="col-lg">
+                    <textarea rows="7" id="comment" placeholder="Message" name="comment" aria-required="true"></textarea>
+                    <input name="submit" type="submit" id="submit" class="submit" value="Post Comment">
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- #respond -->
+</div>

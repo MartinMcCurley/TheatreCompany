@@ -43,7 +43,7 @@
         <div class="ip-header">
 
             <p class="ip-logo">
-                <img src="images/logo-image.png" alt="">
+                <img src="~/images/logo-image.png" alt="">
             </p>
 
             <div class="ip-loader">
@@ -58,12 +58,12 @@
         <!-- Container -->
         <div id="container">
 
-            <!-- Header
+            <!-- Header and sidebar
             ================================================== -->
             <header class="clearfix">
 
                 <div class="logo">
-                    <a href="/Home"><img src="images/logo-image.png" alt=""></a>
+                    <a href="/Home"><img src="~/images/logo-image.png" alt=""></a>
                 </div>
                 <div class="header-line">
                     <a class="open-menu-toggle" href="#">
@@ -90,11 +90,11 @@
                     </div>
                 </div>
 
-                <!-- Actual popout menu -->
+                <!-- Popout menu -->
                 <nav class="nav-menu-box">
                     <ul class="navigation-menu-list">
                         <li class="menu-item-has-children">
-                            <a href="index.html"><span><em>Home</em></span></a>
+                            <a href="/Home"><span><em>Home</em></span></a>
                             <ul class="sub-menu">
                                 <li><a href="/Home">Home 1</a></li>
                                 <li><a href="/Home">Home 2</a></li>
@@ -103,30 +103,45 @@
                                 <li><a href="/Home">Home 5</a></li>
                             </ul>
                         </li>
+                        <li>
+                            @Html.ActionLink("About", "About", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Location", "Contact", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Blog", "", "Posts")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Location", "Contact", "Home")
+                        </li>
                         @if (Request.IsAuthenticated)
                         {
                             if (User.IsInRole("Member"))
                             {
-                                <li><span><em><@Html.ActionLink("My Details", "Index", "Member")></em></span></li>
-                                <li><span><em><@Html.ActionLink("My Comments", "Index", "Member")></em></span></li>
+                                <li class="menu-item-has-children">
+                                    <a href="#"><span><em>Member Options</em></span></a>
+                                    <ul class="sub-menu">
+                                        <li>@Html.ActionLink("My Details", "Index", "Member")</li>
+                                        <li>@Html.ActionLink("My Comments", "Index", "Comments")</li>
+                                        <li>@Html.ActionLink("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })</li>
+                                    </ul>
+                                </li>
+                                
                             }
 
                             if (User.IsInRole("Admin"))
                             {
                                 <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
                             }
+
+                            if (User.IsInRole(""))
+                            {
+
+                            }
                         }
                         <li>
-                            <a href="portfolio.html"><span><em>Register</em></span></a>
-                        </li>
-                        <li>
-                            <a href="about.html"><span><em>About</em></span></a>
-                        </li>
-                        <li>
-                            <a href="blog.html"><span><em>Blog</em></span></a>
-                        </li>
-                        <li>
-                            @Html.ActionLink("Contact", "Contact", "Home")
+                        @Html.ActionLink("Join/Login", "Login", "Account")
                         </li>
                     </ul>
                 </nav>

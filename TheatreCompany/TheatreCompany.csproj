@@ -634,6 +634,7 @@
     <Content Include="Views\Home\IndexBACKUP.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Posts\IndexBACKUP.cshtml" />
+    <Content Include="Views\Posts\DetailsBACKUP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
