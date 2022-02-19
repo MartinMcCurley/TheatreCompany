@@ -24,7 +24,7 @@ namespace TheatreCompany.Controllers
             return View();
         }
 
-        // View All Posts Action
+        // View All Users Action
         [Authorize(Roles = "Admin")]
         public ActionResult ViewUsers()
         {
