@@ -127,6 +127,15 @@ namespace TheatreCompany.Controllers
             return RedirectToAction("Index");
         }
 
+        // This will process the search string from the index page, it must have the same name as the textbox on the view
+        [HttpPost]
+        public ViewResult Index(string SearchString)
+        {
+            var posts = db.Posts.Include(p => p.Category).Include(p => p.User).Where(p => p.Category.Name.Equals(SearchString.Trim()));
+
+            return View(posts.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
