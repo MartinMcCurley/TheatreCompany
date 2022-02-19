@@ -154,7 +154,7 @@ namespace TheatreCompany.Models
                     var post1 = new Post()
                     {
                         Title = "Edinburgh Theatre New Addition!",
-                        Body = "The Theatre Royal Glasgow is home to Scotland’s resident companies and is a unique City Centre venue for conferences, and flexibility for many occasions. On March 2005 Ambassador Theatre Group took over the management of the Theatre Royal Glasgow.",
+                        Body = "The Theatre Royal Glasgow is home to Scotland’s resident companies and is a unique City Centre venue for conferences, and flexibility for many occasions. On March 2005 Theatre Group took over the management of the Theatre Royal Glasgow.",
                         User = member1,
                         Category = cat1
                     };
@@ -215,7 +215,9 @@ namespace TheatreCompany.Models
                     // save the changes to the database
                     context.SaveChanges();
 
+                    //=============
                     // Add Comments
+                    //=============
                     var Comment1p1 = new Comment()
                     {
                         Body = "too many Doors",

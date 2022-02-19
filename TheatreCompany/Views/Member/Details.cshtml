@@ -3,48 +3,49 @@
 @{
     ViewBag.Title = "Details";
 }
+<div id="content">
+    <h2>Details</h2>
 
-<h2>Details</h2>
+    <div>
+        <h4>Post</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </dt>
 
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.FirstName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Body)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Body)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
-
-    </dl>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.PostId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PostId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
