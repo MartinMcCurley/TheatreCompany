@@ -4,33 +4,49 @@
     ViewBag.Title = "ViewUsers";
 }
 <div id="content">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
     <h2>View All Users</h2>
 
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                <p>@Html.DisplayNameFor(model => model.LastName)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                <p>@Html.DisplayNameFor(model => model.FirstName)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                <p>@Html.DisplayNameFor(model => model.UserName)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Street)
+                <p>@Html.DisplayNameFor(model => model.Street)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                <p>@Html.DisplayNameFor(model => model.City)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostCode)
+                <p>@Html.DisplayNameFor(model => model.PostCode)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                <p>@Html.DisplayNameFor(model => model.Email)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                <p>@Html.DisplayNameFor(model => model.PhoneNumber)</p>
+            </th>
+            <th>
+                <p>@Html.DisplayNameFor(model => model.IsActive)</p>
+            </th>
+            <th>
+                <p>@Html.DisplayNameFor(model => model.IsSuspended)</p>
+            </th>
+            <th>
+                <p>@Html.DisplayNameFor(model => model.CurrentRole)</p>
             </th>
 
             <th></th>
@@ -40,28 +56,43 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
+                    <p>@Html.DisplayFor(modelItem => item.LastName)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
+                    <p>@Html.DisplayFor(modelItem => item.FirstName)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
+                    <p>@Html.DisplayFor(modelItem => item.UserName)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Street)
+                    <p>@Html.DisplayFor(modelItem => item.Street)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.City)
+                    <p> @Html.DisplayFor(modelItem => item.City)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PostCode)
+                    <p>@Html.DisplayFor(modelItem => item.PostCode)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    <p>@Html.DisplayFor(modelItem => item.Email)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    <p>@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
+                </td>
+                <td>
+                    <p>@Html.DisplayFor(modelItem => item.IsActive)</p>
+                </td>
+                <td>
+                    <p>@Html.DisplayFor(modelItem => item.IsSuspended)</p>
+                </td>
+                <td>
+                    <p>@Html.DisplayFor(modelItem => item.CurrentRole)</p>
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }

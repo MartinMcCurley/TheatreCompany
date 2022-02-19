@@ -36,6 +36,13 @@ namespace TheatreCompany.Models
                     roleManager.Create(new IdentityRole("Member"));
                 }
 
+                // If the member roles doesnt exist...
+                if (!roleManager.RoleExists("Suspended"))
+                {
+                    // then we create a Member role
+                    roleManager.Create(new IdentityRole("Suspended"));
+                }
+
                 // Save the new roles to the database
                 context.SaveChanges();
 
@@ -70,7 +77,9 @@ namespace TheatreCompany.Models
                         City = "Glasgow",
                         PostCode = "G1 67AD",
                         EmailConfirmed = true,
-                        PhoneNumber = "00447869145567"
+                        PhoneNumber = "00447869145567",
+                        IsActive = true,
+                        IsSuspended = false
                     };
 
                     // add the hashed password to user
@@ -78,6 +87,7 @@ namespace TheatreCompany.Models
 
                     // add the user to the role admin
                     userManager.AddToRole(admin.Id, "Admin");
+
 
                     //====================
                     //create a few members
@@ -94,7 +104,9 @@ namespace TheatreCompany.Models
                         City = "Coatbridge",
                         PostCode = "ML1 67AD",
                         EmailConfirmed = true,
-                        PhoneNumber = "90447979164499"
+                        PhoneNumber = "90447979164499",
+                        IsActive = true,
+                        IsSuspended = false
                     };
 
                     if (userManager.FindByName("member1@gmail.com") == null)
@@ -114,7 +126,9 @@ namespace TheatreCompany.Models
                         City = "Rutherglen",
                         PostCode = "61 7H0",
                         EmailConfirmed = true,
-                        PhoneNumber = "00447779163399"
+                        PhoneNumber = "00447779163399",
+                        IsActive = true,
+                        IsSuspended = false
                     };
 
                     if (userManager.FindByName("member2@yahoo.com") == null)

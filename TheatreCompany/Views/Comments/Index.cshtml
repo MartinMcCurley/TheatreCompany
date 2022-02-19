@@ -12,8 +12,8 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Body)
-            </th>
+                <p>@Html.DisplayNameFor(model => model.Body)</p>
+</th>
             <th></th>
         </tr>
 
@@ -21,8 +21,8 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Body)
-                </td>
+                    <p>@Html.DisplayFor(modelItem => item.Body)</p>
+</td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.CommentId }) |
                     @Html.ActionLink("Details", "Details", new { id = item.CommentId }) |

@@ -6,6 +6,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
+using System.Linq;
 
 namespace TheatreCompany.Models
 {
@@ -30,6 +33,29 @@ namespace TheatreCompany.Models
         [Required]
         [Display(Name = "Post Code")]
         public string PostCode { get; set; }
+
+        [Display(Name = "Active")]
+        public bool IsActive { get; set; }
+
+        [Display(Name = "Suspended")]
+        public bool IsSuspended { get; set; }
+
+
+
+        private ApplicationUserManager userManager;
+
+        [NotMapped]
+        public string CurrentRole
+        {
+            get
+            {
+                if (userManager == null)
+                {
+                    userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+                return userManager.GetRoles(Id).Single();
+            }
+        }
 
 
         //========================

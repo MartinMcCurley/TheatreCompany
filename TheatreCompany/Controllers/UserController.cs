@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,118 +10,107 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
-    public class CommentsController : Controller
+    public class UserController : Controller
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();
 
-        // GET: Comments
+        // GET: User
         public ActionResult Index()
         {
-            var comments = db.Comments.Include(c => c.Post).Include(c => c.User);
-            return View(comments.ToList());
+            return View(db.Users.ToList());
         }
 
-        // GET: Comments/Details/5
-        public ActionResult Details(int? id)
+        // GET: User/Details/5
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(comment);
+            return View(user);
         }
 
-        // GET: Comments/Create
+        // GET: User/Create
         public ActionResult Create()
         {
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
-        // POST: Comments/Create
+        // POST: User/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CommentId,Body,UserId,PostId")] Comment comment)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Street,City,PostCode,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)
         {
             if (ModelState.IsValid)
             {
-                comment.UserId = User.Identity.GetUserId();
-
-                db.Comments.Add(comment);
+                db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", comment.UserId);
-            return View(comment);
+            return View(user);
         }
 
-        // GET: Comments/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: User/Edit/5
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", comment.UserId);
-            return View(comment);
+            return View(user);
         }
 
-        // POST: Comments/Edit/5
+        // POST: User/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentId,Body,UserId,PostId")] Comment comment)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Street,City,PostCode,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(comment).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", comment.UserId);
-            return View(comment);
+            return View(user);
         }
 
-        // GET: Comments/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: User/Delete/5
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(comment);
+            return View(user);
         }
 
-        // POST: Comments/Delete/5
+        // POST: User/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            Comment comment = db.Comments.Find(id);
-            db.Comments.Remove(comment);
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

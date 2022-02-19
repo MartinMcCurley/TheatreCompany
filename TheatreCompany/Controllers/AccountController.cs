@@ -152,7 +152,7 @@ namespace TheatreCompany.Controllers
             if (ModelState.IsValid)
             {
                 // Model for a new user
-                var user = new User 
+                var user = new User
                 {
                     UserName = model.Email,
                     Email = model.Email,
@@ -161,7 +161,9 @@ namespace TheatreCompany.Controllers
                     Street = model.Street,
                     City = model.City,
                     PostCode = model.PostCode,
-                    PhoneNumber = model.PhoneNumber
+                    PhoneNumber = model.PhoneNumber,
+                    IsActive = true,
+                    IsSuspended = false                    
                 };
 
                 //Store the hashed password
