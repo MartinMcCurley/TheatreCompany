@@ -1,4 +1,6 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNet.Identity
+
+<!doctype html>
 
 
 <html lang="en" class="no-js">
@@ -63,7 +65,7 @@
         <div id="container">
 
             <!-- Header and sidebar
-        ================================================== -->
+            ================================================== -->
             <header class="clearfix">
 
                 <div class="logo">
@@ -116,11 +118,12 @@
                                 <li class="menu-item-has-children">
                                     <a href="#"><span><em>Member Options</em></span></a>
                                     <ul class="sub-menu">
-                                        <li>@Html.ActionLink("My Details", "Details", "Member")</li>
+                                        <li>@Html.ActionLink("My Details", "Index", "User")</li>
                                         <li>@Html.ActionLink("My Comments", "Index", "Comments")</li>
-                                        <li>@Html.ActionLink("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })</li>
+                                        <li>@Html.ActionLink("Log Off", "Login", "Account")</li>
                                     </ul>
                                 </li>
+
 
                             }
 

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TheatreCompany.Models;
+using Microsoft.AspNet.Identity;
 
 namespace TheatreCompany.Controllers
 {
@@ -18,7 +19,12 @@ namespace TheatreCompany.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            if (User.IsInRole("Admin"))
+            {
+                return View(db.Users.ToList());
+            }
+            
+            return View(db.Users.ToList().Where(p => p.Id == User.Identity.GetUserId()));
         }
 
         // GET: User/Details/5
@@ -60,7 +66,8 @@ namespace TheatreCompany.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Admin, Member")]
         // GET: User/Edit/5
         public ActionResult Edit(string id)
         {
@@ -80,7 +87,7 @@ namespace TheatreCompany.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Member")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Street,City,PostCode,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)
