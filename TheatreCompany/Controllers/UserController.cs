@@ -10,6 +10,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
+    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
     public class UserController : Controller
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();

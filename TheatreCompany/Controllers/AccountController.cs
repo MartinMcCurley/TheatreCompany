@@ -12,7 +12,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

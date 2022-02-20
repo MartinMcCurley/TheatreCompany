@@ -12,16 +12,16 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Category.Name)
+                <p>@Html.DisplayNameFor(model => model.Category.Name)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.FirstName)
+                <p>@Html.DisplayNameFor(model => model.User.FirstName)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                <p>@Html.DisplayNameFor(model => model.Title)</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Body)
+                <p>@Html.DisplayNameFor(model => model.Body)</p>
             </th>
             <th></th>
         </tr>
@@ -30,19 +30,21 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Category.Name)
+                    <p>@Html.DisplayFor(modelItem => item.Category.Name)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                    <p>@Html.DisplayFor(modelItem => item.User.FirstName)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    <p>@Html.DisplayFor(modelItem => item.Title)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Body)
+                    <p>@Html.DisplayFor(modelItem => item.Body)</p>
                 </td>
                 <td>
-                    @Html.ActionLink("Delete", "DeletePost", new { id = item.PostId })
+                    <p>@Html.ActionLink("Details", "PostDetails", new { id = item.PostId })</p>
+                    <p>@Html.ActionLink("Edit", "EditPost", new { id = item.PostId })</p>
+                    <p>@Html.ActionLink("Delete", "DeletePost", new { id = item.PostId })</p>
                 </td>
             </tr>
         }

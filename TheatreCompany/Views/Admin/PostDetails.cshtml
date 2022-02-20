@@ -1,0 +1,57 @@
+﻿@model TheatreCompany.Models.Post
+
+@{
+    ViewBag.Title = "PostDetails";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div id="content">
+    <h2>PostDetails</h2>
+
+    <div>
+        <h4>Post</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            @*<dt>
+                <p>@Html.DisplayNameFor(model => model.Category.Name)</p>
+            </dt>
+
+            <dd>
+                <p>@Html.DisplayFor(model => model.Category.Name)</p>
+            </dd>
+
+            <dt>
+                <p>@Html.DisplayNameFor(model => model.User.FirstName)</p>
+            </dt>
+
+            <dd>
+                <p>@Html.DisplayFor(model => model.User.FirstName)</p>
+            </dd>*@
+
+            @*<dt>
+                <p>@Html.DisplayNameFor(model => model.Title)</p>
+            </dt>*@
+
+            <dd>
+                <p>@Html.DisplayFor(model => model.Title)</p>
+            </dd>
+
+            @*<dt>
+                <p>@Html.DisplayNameFor(model => model.Body)</p>
+            </dt>*@
+
+            <dd>
+                <p>@Html.DisplayFor(model => model.Body)</p>
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.PostId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

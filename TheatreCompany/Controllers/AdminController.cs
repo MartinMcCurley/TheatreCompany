@@ -106,6 +106,8 @@ namespace TheatreCompany.Controllers
             return View(model);
         }
 
+
+
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteUser(string id)
         {
@@ -256,6 +258,56 @@ namespace TheatreCompany.Controllers
             return View(posts);
         }
 
+        // GET: Posts/Details/5
+        public ActionResult PostDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            return View(post);
+        }
+
+        // GET: Posts/Edit/5
+        public ActionResult EditPost(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", post.UserId);
+            return View(post);
+        }
+
+        // POST: Posts/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost([Bind(Include = "PostId,Title,Body,UserId,CategoryId")] Post post)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(post).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", post.UserId);
+            return View(post);
+        }
+
 
         // GET: Posts/Delete/5
         public ActionResult DeletePost(int? id)
@@ -284,44 +336,6 @@ namespace TheatreCompany.Controllers
         }
         #endregion
 
-        //#region Comment Actions
-        //// GET: Comments
-        //public ActionResult ViewAllComments()
-        //{
-        //    // Return the ViewAllComments view that displays a list of Comments
-        //    return View(db.Comments.ToList());
-        //}
-
-        //// POST: Comments/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "CommentId,Name")] Comment comment)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Comments.Add(comment);
-        //        db.SaveChanges();
-        //        return RedirectToAction("ViewAllComments");
-        //    }
-
-        //    return View(comment);
-        //}
-
-        //// GET: Comments/Edit/5
-        //public ActionResult EditComment(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Comment comment = db.Comments.Find(id);
-        //    if (comment == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(comment);
-        //}
-        //#endregion
 
 
         protected override void Dispose(bool disposing)

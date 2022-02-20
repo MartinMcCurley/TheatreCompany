@@ -11,6 +11,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
+    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
     public class CommentsController : Controller
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();
@@ -58,7 +59,7 @@ namespace TheatreCompany.Controllers
 
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Posts", new { id = comment.PostId });
             }
 
             ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);

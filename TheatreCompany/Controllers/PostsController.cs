@@ -10,6 +10,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
+    [Authorize(Roles = "Admin, Member, Suspended")] // Allows both to access this Controller
     public class PostsController : Controller
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();
@@ -21,6 +22,7 @@ namespace TheatreCompany.Controllers
             return View(posts.ToList());
         }
 
+        [Authorize(Roles = "Admin, Member")]
         // GET: Posts/Details/5
         public ActionResult Details(int? id)
         {
@@ -36,6 +38,7 @@ namespace TheatreCompany.Controllers
             return View(post);
         }
 
+        [Authorize(Roles = "Admin, Member")]
         // GET: Posts/Create
         public ActionResult Create()
         {
@@ -49,6 +52,7 @@ namespace TheatreCompany.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Member")]
         public ActionResult Create([Bind(Include = "PostId,Title,Body,UserId,CategoryId")] Post post)
         {
             if (ModelState.IsValid)
@@ -64,6 +68,7 @@ namespace TheatreCompany.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize(Roles = "Admin, Member")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -85,6 +90,7 @@ namespace TheatreCompany.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Member")]
         public ActionResult Edit([Bind(Include = "PostId,Title,Body,UserId,CategoryId")] Post post)
         {
             if (ModelState.IsValid)
@@ -99,6 +105,7 @@ namespace TheatreCompany.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize(Roles = "Admin, Member")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -116,6 +123,7 @@ namespace TheatreCompany.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Member")]
         public ActionResult DeleteConfirmed(int id)
         {
             var comments = db.Comments.Where(o => o.PostId == id).ToList();

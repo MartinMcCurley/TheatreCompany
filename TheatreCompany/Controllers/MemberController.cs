@@ -11,6 +11,7 @@ using System.Net;
 
 namespace TheatreCompany.Controllers
 {
+    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
     public class MemberController : Controller
     {
         // Instance of the database

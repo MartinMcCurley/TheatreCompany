@@ -3,6 +3,12 @@
 @{
     ViewBag.Title = "Create";
 }
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 <div id="content">
 
@@ -27,12 +33,12 @@
 
 
             @*<div class="form-group">
-                @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+                    @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
 
 
 
@@ -46,7 +52,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Create" class="btn btn-light"  onclick="return ConfirmationDialog()"  />
                 </div>
             </div>
         </div>
@@ -55,4 +61,14 @@
     <div>
         @Html.ActionLink("Back to List", "Index")
     </div>
+
+
+    <script type="text/javascript">
+        function ConfirmationDialog() {
+            if (confirm("Are you sure you want to post this comment?"))
+                return true;
+            else
+                return false;
+        }
+    </script>
 </div>
