@@ -58,7 +58,7 @@ namespace TheatreCompany.Controllers
 
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Posts", new { id = comment.PostId });
             }
 
             ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);
