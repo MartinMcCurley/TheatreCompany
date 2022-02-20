@@ -96,8 +96,8 @@ namespace TheatreCompany.Models
                     // Member1
                     var member1 = new User()
                     {
-                        UserName = "member1@gmail.com",
-                        Email = "member1@gmail.com",
+                        UserName = "member1@yahoo.com",
+                        Email = "member1@yahoo.com",
                         FirstName = "Paul",
                         LastName = "Goat",
                         Street = "5 Merry Street",
@@ -109,7 +109,7 @@ namespace TheatreCompany.Models
                         IsSuspended = false
                     };
 
-                    if (userManager.FindByName("member1@gmail.com") == null)
+                    if (userManager.FindByName("member1@yahoo.com") == null)
                     {
                         userManager.Create(member1, "password1");
                         userManager.AddToRole(member1.Id, "Member");
@@ -135,6 +135,28 @@ namespace TheatreCompany.Models
                     {
                         userManager.Create(member2, "password2");
                         userManager.AddToRole(member2.Id, "Member");
+                    }
+
+                    // Member3
+                    var member3 = new User()
+                    {
+                        UserName = "member3@yahoo.com",
+                        Email = "member3@yahoo.com",
+                        FirstName = "Mark",
+                        LastName = "Johnson",
+                        Street = "15 Confused Street",
+                        City = "Rutherglen",
+                        PostCode = "61 7H0",
+                        EmailConfirmed = true,
+                        PhoneNumber = "00447779163399",
+                        IsActive = true,
+                        IsSuspended = true
+                    };
+
+                    if (userManager.FindByName("member3@yahoo.com") == null)
+                    {
+                        userManager.Create(member3, "password3");
+                        userManager.AddToRole(member3.Id, "Suspended");
                     }
 
 

@@ -11,6 +11,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
+    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
     public class CommentsController : Controller
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();

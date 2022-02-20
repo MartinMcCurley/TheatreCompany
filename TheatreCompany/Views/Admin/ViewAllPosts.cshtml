@@ -42,6 +42,7 @@
                     <p>@Html.DisplayFor(modelItem => item.Body)</p>
                 </td>
                 <td>
+                    <p>@Html.ActionLink("Details", "PostDetails", new { id = item.PostId })</p>
                     <p>@Html.ActionLink("Edit", "EditPost", new { id = item.PostId })</p>
                     <p>@Html.ActionLink("Delete", "DeletePost", new { id = item.PostId })</p>
                 </td>

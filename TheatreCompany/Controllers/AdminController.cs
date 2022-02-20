@@ -106,6 +106,8 @@ namespace TheatreCompany.Controllers
             return View(model);
         }
 
+
+
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteUser(string id)
         {
@@ -254,6 +256,21 @@ namespace TheatreCompany.Controllers
 
             // Send the list t the vierw named viewallposts
             return View(posts);
+        }
+
+        // GET: Posts/Details/5
+        public ActionResult PostDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            return View(post);
         }
 
         // GET: Posts/Edit/5
