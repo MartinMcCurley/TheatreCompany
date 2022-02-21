@@ -128,13 +128,18 @@ namespace TheatreCompany.Controllers
                 return HttpNotFound();
             }
 
+            // Delete comments where the commentId is from that user
             var comments = db.Comments.Where(o => o.UserId == id).ToList();
             db.Comments.RemoveRange(comments);
 
+            // Delete comments where the postId is from that user
             var posts = db.Posts.Where(o => o.UserId == id).ToList();
             db.Posts.RemoveRange(posts);
+
+            // Save db change
             db.SaveChanges();
 
+            // Finally delete user after posts and comments have been removed to avoid FK constraint breach
             await UserManager.DeleteAsync(user);
 
             return RedirectToAction("Index", "Admin");

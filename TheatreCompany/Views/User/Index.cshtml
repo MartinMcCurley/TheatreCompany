@@ -12,10 +12,16 @@
 
 <div id="content">
     <h2>Index</h2>
+    @if (Request.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin"))
+        {
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+        }
+    }
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
     <table class="table">
         <tr>
             <th>
@@ -37,34 +43,34 @@
                 <p>@Html.DisplayNameFor(model => model.Email)</p>
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.EmailConfirmed)</p>
+                @Html.DisplayNameFor(model => model.EmailConfirmed)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.PasswordHash)</p>
+                @Html.DisplayNameFor(model => model.PasswordHash)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.SecurityStamp)</p>
+                @Html.DisplayNameFor(model => model.SecurityStamp)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.PhoneNumber)</p>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.PhoneNumberConfirmed)</p>
+                @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.TwoFactorEnabled)</p>
+                @Html.DisplayNameFor(model => model.TwoFactorEnabled)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.LockoutEndDateUtc)</p>
+                @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.LockoutEnabled)</p>
+                @Html.DisplayNameFor(model => model.LockoutEnabled)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.AccessFailedCount)</p>
+                @Html.DisplayNameFor(model => model.AccessFailedCount)
             </th>
             <th>
-                <p>@Html.DisplayNameFor(model => model.UserName)</p>
+                @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th></th>
         </tr>
@@ -91,40 +97,41 @@
                     <p>@Html.DisplayFor(modelItem => item.Email)</p>
                 </td>
                 <td>
-                    <p>@Html.DisplayFor(modelItem => item.EmailConfirmed)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.PasswordHash)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.SecurityStamp)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.TwoFactorEnabled)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.LockoutEndDateUtc)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.LockoutEnabled)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.AccessFailedCount)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.UserName)</p>
-                </td>
-                <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PasswordHash)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecurityStamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LockoutEnabled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccessFailedCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+
             </tr>
         }
 

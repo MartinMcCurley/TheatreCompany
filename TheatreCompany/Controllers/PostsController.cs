@@ -10,7 +10,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
-    [Authorize(Roles = "Admin, Member, Suspended")] // Allows both to access this Controller
+    // [Authorize(Roles = "Admin, Member, Suspended")] // Allows both to access this Controller
     public class PostsController : Controller
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();

@@ -29,6 +29,13 @@ namespace TheatreCompany.Models
                     roleManager.Create(new IdentityRole("Admin"));
                 }
 
+                // If the Staff role doesnt exist...
+                if (!roleManager.RoleExists("Staff"))
+                {
+                    // then we create an Admin Role
+                    roleManager.Create(new IdentityRole("Staff"));
+                }
+
                 // If the member roles doesnt exist...
                 if (!roleManager.RoleExists("Member"))
                 {
@@ -96,20 +103,20 @@ namespace TheatreCompany.Models
                     // Member1
                     var member1 = new User()
                     {
-                        UserName = "member1@yahoo.com",
-                        Email = "member1@yahoo.com",
-                        FirstName = "Paul",
-                        LastName = "Goat",
-                        Street = "5 Merry Street",
+                        UserName = "member1@gmail.com",
+                        Email = "member1@gmail.com",
+                        FirstName = "John",
+                        LastName = "Killie",
+                        Street = "5 Downie Street",
                         City = "Coatbridge",
-                        PostCode = "ML1 67AD",
+                        PostCode = "ML65AD",
                         EmailConfirmed = true,
                         PhoneNumber = "90447979164499",
                         IsActive = true,
                         IsSuspended = false
                     };
 
-                    if (userManager.FindByName("member1@yahoo.com") == null)
+                    if (userManager.FindByName("member1@gmail.com") == null)
                     {
                         userManager.Create(member1, "password1");
                         userManager.AddToRole(member1.Id, "Member");
@@ -118,12 +125,12 @@ namespace TheatreCompany.Models
                     // Member2
                     var member2 = new User()
                     {
-                        UserName = "member2@yahoo.com",
-                        Email = "member2@yahoo.com",
-                        FirstName = "Luigi",
-                        LastName = "Musolini",
-                        Street = "15 Confused Street",
-                        City = "Rutherglen",
+                        UserName = "member2@gmail.com",
+                        Email = "member2@gmail.com",
+                        FirstName = "Ally",
+                        LastName = "Reilly",
+                        Street = "15 Jamiaca Street",
+                        City = "Glasgow",
                         PostCode = "61 7H0",
                         EmailConfirmed = true,
                         PhoneNumber = "00447779163399",
@@ -131,33 +138,97 @@ namespace TheatreCompany.Models
                         IsSuspended = false
                     };
 
-                    if (userManager.FindByName("member2@yahoo.com") == null)
+                    if (userManager.FindByName("member2@gmail.com") == null)
                     {
                         userManager.Create(member2, "password2");
                         userManager.AddToRole(member2.Id, "Member");
                     }
 
-                    // Member3
+                    // Member3 - SUSPENDED
                     var member3 = new User()
                     {
-                        UserName = "member3@yahoo.com",
-                        Email = "member3@yahoo.com",
-                        FirstName = "Mark",
-                        LastName = "Johnson",
-                        Street = "15 Confused Street",
-                        City = "Rutherglen",
+                        UserName = "member3@gmail.com",
+                        Email = "member3@gmail.com",
+                        FirstName = "Gael",
+                        LastName = "Cliche",
+                        Street = "33 Sauchiehall Street",
+                        City = "Glasgow",
                         PostCode = "61 7H0",
                         EmailConfirmed = true,
-                        PhoneNumber = "00447779163399",
+                        PhoneNumber = "00447775467876",
                         IsActive = true,
                         IsSuspended = true
                     };
 
-                    if (userManager.FindByName("member3@yahoo.com") == null)
+                    if (userManager.FindByName("member3@gmail.com") == null)
                     {
                         userManager.Create(member3, "password3");
                         userManager.AddToRole(member3.Id, "Suspended");
                     }
+
+                    var member4 = new User()
+                    {
+                        UserName = "member4@gmail.com",
+                        Email = "member4@gmail.com",
+                        FirstName = "John",
+                        LastName = "Reilly",
+                        Street = "15 Caldwell Street",
+                        City = "Glasgow",
+                        PostCode = "61 7P0",
+                        EmailConfirmed = true,
+                        PhoneNumber = "0044777465234",
+                        IsActive = true,
+                        IsSuspended = false
+                    };
+
+                    if (userManager.FindByName("member4@gmail.com") == null)
+                    {
+                        userManager.Create(member4, "password4");
+                        userManager.AddToRole(member4.Id, "Staff");
+                    }
+
+                    var member5 = new User()
+                    {
+                        UserName = "member5@gmail.com",
+                        Email = "member5@gmail.com",
+                        FirstName = "Gordon",
+                        LastName = "Casey",
+                        Street = "34 Sauchiehall Lane",
+                        City = "Glasgow",
+                        PostCode = "61 7H0",
+                        EmailConfirmed = true,
+                        PhoneNumber = "00447779165722",
+                        IsActive = true,
+                        IsSuspended = false
+                    };
+
+                    if (userManager.FindByName("member5@gmail.com") == null)
+                    {
+                        userManager.Create(member5, "password5");
+                        userManager.AddToRole(member5.Id, "Member");
+                    }
+
+                    var member6 = new User()
+                    {
+                        UserName = "member6@gmail.com",
+                        Email = "member6@gmail.com",
+                        FirstName = "Chris",
+                        LastName = "Oconnor",
+                        Street = "15 JumpPlains",
+                        City = "Glasgow",
+                        PostCode = "G836GG",
+                        EmailConfirmed = true,
+                        PhoneNumber = "00447779163456",
+                        IsActive = true,
+                        IsSuspended = false
+                    };
+
+                    if (userManager.FindByName("member6@gmail.com") == null)
+                    {
+                        userManager.Create(member6, "password6");
+                        userManager.AddToRole(member6.Id, "Member");
+                    }
+
 
 
                     // save users to the database
@@ -203,30 +274,48 @@ namespace TheatreCompany.Models
                     {
                         Title = "Access to upper levels",
                         Body = "Following the redevelopment, new lifts have opened up access, meaning for the first time in the theatre's 147 year history all audience members can reach all levels.",
-                        User = member1,
+                        User = member2,
                         Category = cat1
                     };
                     context.Posts.Add(post2);
+
+                    var post4 = new Post()
+                    {
+                        Title = "‘Aaraattu’ movie review: All-round star worship... and then some",
+                        Body = "For the script is replete with those, with a few landing well and a majority falling flat. In some sequences, like when Neyyatinkara Gopan (Mohanlal) visits an old ‘tharavadu’, the references come so thick and fast, that it is hard to keep up.",
+                        User = member3,
+                        Category = cat3
+                    };
+                    context.Posts.Add(post4);
 
 
                     var post3 = new Post()
                     {
                         Title = "Theatre Royal Glasgow Cafe",
                         Body = "Customers can now enjoy the theatre during the day, in a new café - Vanilla Black at the Theatre - serving coffee, cakes and other tasty treats. Complimentary wi-fi is available for cafe-users.",
-                        User = member1,
+                        User = member4,
                         Category = cat1
                     };
                     context.Posts.Add(post3);
 
 
-                    var post4 = new Post()
+                    var post6 = new Post()
                     {
-                        Title = "‘Aaraattu’ movie review: All-round star worship... and then some",
-                        Body = "For the script is replete with those, with a few landing well and a majority falling flat. In some sequences, like when Neyyatinkara Gopan (Mohanlal) visits an old ‘tharavadu’, the references come so thick and fast, that it is hard to keep up.",
-                        User = member1,
+                        Title = "IT HAPPENED ONE NIGHT",
+                        Body = "Capturing its stars and director at their finest, It Happened One Night remains unsurpassed by the countless romantic comedies it has inspired.",
+                        User = member5,
                         Category = cat3
                     };
-                    context.Posts.Add(post4);
+                    context.Posts.Add(post6);
+
+                    var post7 = new Post()
+                    {
+                        Title = "CITIZEN KANE - Movie Review",
+                        Body = "Orson Welles's epic tale of a publishing tycoon's rise and fall is entertaining, poignant, and inventive in its storytelling, earning its reputation as a landmark achievement in film.",
+                        User = member5,
+                        Category = cat3
+                    };
+                    context.Posts.Add(post7);
 
 
                     var post5 = new Post()
@@ -239,14 +328,14 @@ namespace TheatreCompany.Models
                     context.Posts.Add(post5);
 
 
-                    var post6 = new Post()
+                    var post8 = new Post()
                     {
                         Title = "48 ACTION MOVIES RANKED",
                         Body = "It was in 1993 that Hollywood realized the dream of putting a video game movie up on the big screen with Super Mario Bros., and setting the stage for a long legacy of questionable choices, troubled productions, and gamers’ pixel tears left in their wake. But like the kid who just has to pump in one more quarter to reach for that high score, the studios keep on trying (while the fans just keep on hoping), and we’re celebrating that sort of sheer tenacity with this guide to the best video game movies (and plenty of the worst) ranked by Tomatometer!",
                         User = member1,
                         Category = cat2
                     };
-                    context.Posts.Add(post6);
+                    context.Posts.Add(post8);
 
                     // save the changes to the database
                     context.SaveChanges();
@@ -256,7 +345,7 @@ namespace TheatreCompany.Models
                     //=============
                     var Comment1p1 = new Comment()
                     {
-                        Body = "too many Doors",
+                        Body = "I loved this movie!",
                         User = member2,
                         Post = post1
                     };
@@ -265,7 +354,7 @@ namespace TheatreCompany.Models
                     // Add Comment
                     var Comment1p2 = new Comment()
                     {
-                        Body = "too many Doors really too many",
+                        Body = "5* from me, great movie!",
                         User = member1,
                         Post = post1
                     };
@@ -274,11 +363,46 @@ namespace TheatreCompany.Models
                     // Add Comment
                     var Comment2p1 = new Comment()
                     {
-                        Body = "testy test",
+                        Body = "Best movie ive ever seen!",
                         User = member2,
                         Post = post2
                     };
                     context.Comments.Add(Comment2p1);
+
+                    // Add Comment
+                    var Comment2p3 = new Comment()
+                    {
+                        Body = "Not bad",
+                        User = member2,
+                        Post = post2
+                    };
+                    context.Comments.Add(Comment2p3);
+
+                    // Add Comment
+                    var Comment3p1 = new Comment()
+                    {
+                        Body = "This movie was incvredible. I was glued to my seat the entire time!",
+                        User = member2,
+                        Post = post2
+                    };
+                    context.Comments.Add(Comment3p1);
+
+                    // Add Comment
+                    var Comment4p1 = new Comment()
+                    {
+                        Body = "This movie was incvredible. I was glued to my seat the entire time!",
+                        User = member2,
+                        Post = post2
+                    };
+                    context.Comments.Add(Comment4p1);
+
+                    var Comment2p2 = new Comment()
+                    {
+                        Body = "I loved this, couldnt beat it! Ally wants to delete this comment",
+                        User = member2,
+                        Post = post2
+                    };
+                    context.Comments.Add(Comment2p2);
 
                     // save the changes to the database
                     context.SaveChanges();

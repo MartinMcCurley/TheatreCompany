@@ -16,12 +16,24 @@ namespace TheatreCompany.Controllers
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();
 
+        //// GET: Comments
+        //public ActionResult Index()
+        //{
+        //    var comments = db.Comments.Include(c => c.Post).Include(c => c.User);
+        //    return View(comments.ToList());
+        //}
+
         // GET: Comments
         public ActionResult Index()
         {
             var comments = db.Comments.Include(c => c.Post).Include(c => c.User);
+            if (User.IsInRole("Member"))
+            {
+                return View(comments.ToList().Where(p => p.UserId == User.Identity.GetUserId()));
+            }
             return View(comments.ToList());
         }
+
 
         // GET: Comments/Details/5
         public ActionResult Details(int? id)
