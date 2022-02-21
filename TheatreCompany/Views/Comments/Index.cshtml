@@ -3,17 +3,21 @@
 @{
     ViewBag.Title = "Index";
 }
-<div id="content">
-    <h2>Index</h2>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+<div id="content">
+
+
     <table class="table">
         <tr>
             <th>
-                <p>@Html.DisplayNameFor(model => model.Body)</p>
-</th>
+                @Html.DisplayNameFor(model => model.Body)
+            </th>
             <th></th>
         </tr>
 
@@ -22,7 +26,7 @@
             <tr>
                 <td>
                     <p>@Html.DisplayFor(modelItem => item.Body)</p>
-</td>
+                </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.CommentId }) |
                     @Html.ActionLink("Details", "Details", new { id = item.CommentId }) |

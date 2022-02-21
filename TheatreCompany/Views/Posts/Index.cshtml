@@ -21,7 +21,6 @@
         </div>
     </section>
     <!-- End page-banner section -->
-
     <!-- Search By Category Function -->
     @using (Html.BeginForm())
     {
@@ -31,6 +30,16 @@
             <input type="submit" value="Search" />
         </p>
     }
+    @if (Request.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin"))
+        {
+            <p>
+                @Html.ActionLink("Create new Post", "Create", "Posts")
+            </p>
+        }
+    }
+
     <br />
     <hr />
 
@@ -44,7 +53,7 @@
                 {
                     <div class="blog-post post-list-style">
                         <a href="single-post.html" class="post-thumbnail">
-                            <img src="~/upload/blog-list/post-img-1.jpg" alt="">
+                            <img src="~/images/s2.jpg" alt="">
                         </a>
                         <div class="post-content">
                             <ul class="meta-list">
@@ -67,7 +76,7 @@
                         </div>
                     </div>
                 }
-                
+
 
             </div>
             <ul class="pagination-list">
