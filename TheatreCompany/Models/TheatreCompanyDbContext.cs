@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿// Author: Martin McCurley | Date: 01/02/22
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace TheatreCompany.Models
 {
     public class TheatreCompanyDbContext : IdentityDbContext<User>
     {
-        // These will create Categories and Posts tables in the db when app runs
+        // These will create Categories and Posts and Comments tables in the db when app runs
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }

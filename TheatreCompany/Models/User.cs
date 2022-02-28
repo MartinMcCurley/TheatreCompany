@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿// Author: Martin McCurley | Date: 10/02/22
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -41,9 +42,10 @@ namespace TheatreCompany.Models
         public bool IsSuspended { get; set; }
 
 
-
+        // The application user manager which controls all aspects of users
         private ApplicationUserManager userManager;
 
+        // This method gets the current role of the user
         [NotMapped]
         public string CurrentRole
         {

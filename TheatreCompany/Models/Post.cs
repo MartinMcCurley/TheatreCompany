@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: Martin McCurley | Date: 05/02/22
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TheatreCompany.Models
 {
+    // Creating a new post including the required attributes and maing Body multiline text for easier input
     public class Post
     {
         public Post()

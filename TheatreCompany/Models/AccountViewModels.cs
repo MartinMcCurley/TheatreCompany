@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// Author: Martin McCurley | Date: 01/02/22
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TheatreCompany.Models

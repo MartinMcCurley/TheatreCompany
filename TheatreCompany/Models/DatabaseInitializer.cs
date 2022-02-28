@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: Martin McCurley | Date: 01/02/22
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -227,6 +228,27 @@ namespace TheatreCompany.Models
                     {
                         userManager.Create(member6, "password6");
                         userManager.AddToRole(member6.Id, "Member");
+                    }
+
+                    var member7 = new User()
+                    {
+                        UserName = "staff1@gmail.com",
+                        Email = "staff1@gmail.com",
+                        FirstName = "Anne",
+                        LastName = "Johnstone",
+                        Street = "39 Caldwell Avenue",
+                        City = "Glasgow",
+                        PostCode = "G837GL",
+                        EmailConfirmed = true,
+                        PhoneNumber = "00447779163444",
+                        IsActive = true,
+                        IsSuspended = false
+                    };
+
+                    if (userManager.FindByName("staff1@gmail.com") == null)
+                    {
+                        userManager.Create(member7, "password1");
+                        userManager.AddToRole(member7.Id, "Admin");
                     }
 
 

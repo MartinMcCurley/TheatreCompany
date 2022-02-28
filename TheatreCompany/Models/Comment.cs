@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: Martin McCurley | Date: 04/02/22
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

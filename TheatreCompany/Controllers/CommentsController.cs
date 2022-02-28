@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿// Author: Martin McCurley | Date: 12/02/22
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +12,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
-    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
+    // [Authorize(Roles = "Admin, Staff, Member")] // Allows all to access this Controller
     public class CommentsController : Controller
     {
         private TheatreCompanyDbContext db = new TheatreCompanyDbContext();

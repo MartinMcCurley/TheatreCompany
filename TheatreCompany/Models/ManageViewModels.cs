@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// Author: Martin McCurley | Date: 03/02/22
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;

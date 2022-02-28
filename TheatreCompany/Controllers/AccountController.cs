@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: Martin McCurley | Date: 01/02/22
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -12,7 +13,7 @@ using TheatreCompany.Models;
 
 namespace TheatreCompany.Controllers
 {
-    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
+    [Authorize(Roles = "Admin, Member, Staff")] // Allows both to access this Controller
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
