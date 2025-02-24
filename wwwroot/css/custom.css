@@ -1,0 +1,64 @@
+/* Custom styles to fix layout issues */
+
+/* Add margin to account for side menu */
+#container {
+    margin-left: 100px;
+    padding-top: 100px;
+}
+
+/* Adjust container margin for mobile */
+@media (max-width: 1023px) {
+    #container {
+        margin-left: 0;
+        padding-top: 60px;
+    }
+}
+
+/* Fix content area padding */
+#content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Ensure proper stacking of header elements */
+header {
+    z-index: 2;
+}
+
+/* Fix header line positioning */
+header .header-line {
+    z-index: 3;
+}
+
+/* Fix logo positioning */
+header .logo {
+    z-index: 4;
+}
+
+/* Ensure proper spacing for main content */
+.ip-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Fix navigation menu positioning */
+.nav-menu-box {
+    z-index: 5;
+}
+
+/* Ensure proper spacing for sections */
+section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 0;
+}
+
+/* Fix section spacing on mobile */
+@media (max-width: 767px) {
+    section {
+        padding: 40px 0;
+    }
+    #container {
+        padding-top: 40px;
+    }
+} 

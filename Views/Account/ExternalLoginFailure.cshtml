@@ -1,8 +1,11 @@
 ﻿@{
-    ViewBag.Title = "Login Failure";
+    ViewData["Title"] = "Login Failure";
 }
-<div id="content"><hgroup>
-    <h2>@ViewBag.Title.</h2>
-    <h3 class="text-danger">Unsuccessful login with service.</h3>
-</hgroup></div>
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <div class="alert alert-danger">
+        Unsuccessful login with external service. Please try again or contact support if the issue persists.
+    </div>
+</div>
 

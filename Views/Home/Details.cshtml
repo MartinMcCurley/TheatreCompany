@@ -1,55 +1,57 @@
 ﻿@model TheatreCompany.Models.Post
 
 @{
-    ViewBag.Title = "Details";
+    ViewData["Title"] = Model.Title;
 }
-<div id="content">
-    <h2>@Model.Title</h2>
 
-    <div>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">@Model.Title</h1>
+            <div class="text-muted mb-3">
+                Posted by @Model.User.Email on @Model.CreatedAt.ToString("MMMM dd, yyyy")
+                in @Model.Category.Name
+            </div>
+            
+            <div class="card-text">
+                @Html.Raw(Model.Body)
+            </div>
 
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Category.Name)
-            </dt>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="mt-4">
+                    <h4>Add a Comment</h4>
+                    <form asp-controller="Home" asp-action="AddComment" method="post">
+                        <input type="hidden" name="PostId" value="@Model.Id" />
+                        <div class="form-group">
+                            <textarea name="Body" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
+                    </form>
+                </div>
+            }
 
-            <dd>
-                @Html.DisplayFor(model => model.Category.Name)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.User.FirstName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.User.FirstName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Body)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Body)
-            </dd>
-
-
-        </dl>
+            @if (Model.Comments != null && Model.Comments.Any())
+            {
+                <div class="mt-4">
+                    <h4>Comments</h4>
+                    @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedAt))
+                    {
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <p class="card-text">@comment.Body</p>
+                                <small class="text-muted">
+                                    By @comment.User.Email on @comment.CreatedAt.ToString("MMMM dd, yyyy")
+                                </small>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
-    <p>
 
-        @Html.ActionLink("Back to List", "Index")
-
-        <a class="btn-sm" href="http://amazon.co.uk">Buy Now</a>
-
-    </p>
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>

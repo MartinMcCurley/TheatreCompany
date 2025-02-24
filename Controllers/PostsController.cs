@@ -1,145 +1,164 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using TheatreCompany.Models;
+using TheatreCompany.Data;
 
 namespace TheatreCompany.Controllers
 {
     // [Authorize(Roles = "Admin, Member, Suspended")] // Allows both to access this Controller
     public class PostsController : Controller
     {
-        private TheatreCompanyDbContext db = new TheatreCompanyDbContext();
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        // GET: Posts
-        public ActionResult Index()
+        public PostsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            var posts = db.Posts.Include(p => p.Category).Include(p => p.User);
-            return View(posts.ToList());
+            _context = context;
+            _userManager = userManager;
         }
 
-        [Authorize(Roles = "Admin, Member")]
-        // GET: Posts/Details/5
-        public ActionResult Details(int? id)
+        public async Task<IActionResult> Index()
+        {
+            var posts = await _context.Posts
+                .Include(p => p.Category)
+                .Include(p => p.User)
+                .ToListAsync();
+            return View(posts);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyPosts()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var posts = await _context.Posts
+                .Include(p => p.Category)
+                .Include(p => p.User)
+                .Where(p => p.UserId == user.Id)
+                .ToListAsync();
+            return View("Index", posts);
+        }
+
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Post post = db.Posts.Find(id);
+
+            var post = await _context.Posts
+                .Include(p => p.Category)
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                    .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (post == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
+
             return View(post);
         }
 
-        [Authorize(Roles = "Admin, Member")]
-        // GET: Posts/Create
-        public ActionResult Create()
-        {
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
-        }
-
-        // POST: Posts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Member")]
-        public ActionResult Create([Bind(Include = "PostId,Title,Body,UserId,CategoryId")] Post post)
+        public async Task<IActionResult> Create([Bind("Title,Content,CategoryId")] Post post)
         {
             if (ModelState.IsValid)
             {
-                db.Posts.Add(post);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var user = await _userManager.GetUserAsync(User);
+                post.UserId = user.Id;
+                post.CreatedAt = DateTime.UtcNow;
+
+                _context.Add(post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", post.UserId);
+            ViewData["CategoryId"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Categories, "Id", "Name", post.CategoryId);
             return View(post);
         }
 
-        // GET: Posts/Edit/5
-        [Authorize(Roles = "Admin, Member")]
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Post post = db.Posts.Find(id);
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", post.UserId);
-            return View(post);
-        }
-
-        // POST: Posts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Member")]
-        public ActionResult Edit([Bind(Include = "PostId,Title,Body,UserId,CategoryId")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,CategoryId,UserId,CreatedAt")] Post post)
         {
+            if (id != post.Id)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (post.UserId != user.Id && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+
             if (ModelState.IsValid)
             {
-                db.Entry(post).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    _context.Update(post);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PostExists(post.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", post.UserId);
+
+            ViewData["CategoryId"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Categories, "Id", "Name", post.CategoryId);
             return View(post);
         }
 
-        // GET: Posts/Delete/5
-        [Authorize(Roles = "Admin, Member")]
-        public ActionResult Delete(int? id)
+        [Authorize]
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Post post = db.Posts.Find(id);
+            var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(post);
+
+            var user = await _userManager.GetUserAsync(User);
+            if (post.UserId != user.Id && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+
+            _context.Posts.Remove(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: Posts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Member")]
-        public ActionResult DeleteConfirmed(int id)
+        private bool PostExists(int id)
         {
-            var comments = db.Comments.Where(o => o.PostId == id).ToList();
-            db.Comments.RemoveRange(comments);
-
-            Post post = db.Posts.Find(id);
-            db.Posts.Remove(post);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return _context.Posts.Any(e => e.Id == id);
         }
 
         // This will process the search string from the index page, it must have the same name as the textbox on the view
         [HttpPost]
         public ViewResult Index(string SearchString)
         {
-            var posts = db.Posts.Include(p => p.Category).Include(p => p.User).Where(p => p.Category.Name.Equals(SearchString.Trim()));
+            var posts = _context.Posts.Include(p => p.Category).Include(p => p.User).Where(p => p.Category.Name.Equals(SearchString.Trim()));
 
             return View(posts.ToList());
         }
@@ -148,7 +167,7 @@ namespace TheatreCompany.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

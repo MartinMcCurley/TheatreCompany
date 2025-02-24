@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,14 +13,17 @@ namespace TheatreCompany.Models
         }
 
         [Key]
-        public int PostId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string Title { get; set; }
+        [StringLength(200)]
+        public string Title { get; set; } = string.Empty;
 
-        [DataType(DataType.MultilineText)]
-        public string Body { get; set; }
+        [Required]
+        [Display(Name = "Content")]
+        public string Body { get; set; } = string.Empty;
 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         //===================================================================================
         // Navigational Properties added using "System.ComponentModel.DataAnnotations.Schema"
@@ -31,16 +31,15 @@ namespace TheatreCompany.Models
 
         // This is the user the post belongs to
         [ForeignKey("User")]
-        public string UserId { get; set; }
-        public User User { get; set; }
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
 
         // This is the category the post belongs to
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
         // We declare a virtual list of comments 
         public virtual ICollection<Comment> Comments { get; set; }
-
     }
 }

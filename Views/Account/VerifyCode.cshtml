@@ -1,40 +1,46 @@
 ﻿@model TheatreCompany.Models.VerifyCodeViewModel
 @{
-    ViewBag.Title = "Verify";
+    ViewData["Title"] = "Verify";
 }
-<div id="content">
-    <h2>@ViewBag.Title.</h2>
 
-    @using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("provider", @Model.Provider)
-        @Html.Hidden("rememberMe", @Model.RememberMe)
-        <h4>Enter verification code</h4>
-        <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(m => m.Code, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    @Html.CheckBoxFor(m => m.RememberBrowser)
-                    @Html.LabelFor(m => m.RememberBrowser)
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-controller="Account" asp-action="VerifyCode" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input asp-for="Provider" type="hidden" />
+                <input asp-for="RememberMe" type="hidden" />
+                <h4>Enter verification code</h4>
+                <hr />
+                <div class="form-group">
+                    <label asp-for="Code" class="col-md-2 control-label">@ViewData["Status"]</label>
+                    <div class="col-md-10">
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            <label>
+                                <input asp-for="RememberBrowser" />
+                                @Html.DisplayNameFor(m => m.RememberBrowser)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-light" value="Submit" />
-            </div>
-        </div>
-    }
+    </div>
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <partial name="_ValidationScriptsPartial" />
 }

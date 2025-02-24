@@ -1,4 +1,12 @@
 ﻿@model IEnumerable<TheatreCompany.Models.Post>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Posts";
+    var isAdmin = User.IsInRole("Admin");
+    var isMember = User.IsInRole("Member");
+    var currentPath = HttpContextAccessor.HttpContext?.Request.Path.Value ?? string.Empty;
+}
 
 <div id="content">
 
@@ -30,14 +38,11 @@
             <input type="submit" value="Search" />
         </p>
     }
-    @if (Request.IsAuthenticated)
+    @if (isMember || isAdmin)
     {
-        if (User.IsInRole("Admin"))
-        {
-            <p>
-                @Html.ActionLink("Create new Post", "Create", "Posts")
-            </p>
-        }
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </p>
     }
 
     <br />
@@ -49,35 +54,40 @@
     <section class="blog-section">
         <div class="container">
             <div class="blog-box">
-                @foreach (var item in Model)
-                {
-                    <div class="blog-post post-list-style">
-                        <a href="single-post.html" class="post-thumbnail">
-                            <img src="~/images/s2.jpg" alt="">
-                        </a>
-                        <div class="post-content">
-                            <ul class="meta-list">
-                                <li>
-                                    <a href="#">
-                                        <i class="far fa-folder-open"></i>
-                                        @Html.DisplayFor(modelItem => item.Category.Name)
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="far fa-clock"></i>
-                                        By: @Html.DisplayFor(modelItem => item.User.FirstName)
-                                    </a>
-                                </li>
-                            </ul>
-                            <h3><a href="@Url.Action("Details", new { id=item.PostId })">@Html.DisplayFor(modelItem => item.Title)</a></h3>
-                            <p>@Html.DisplayFor(modelItem => item.Body)</p>
-                            <a class="button-one" href="@Url.Action("Details", new { id=item.PostId })"><span>Read More</span></a>
-                        </div>
-                    </div>
-                }
-
-
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Title)</th>
+                                <th>@Html.DisplayNameFor(model => model.Body)</th>
+                                <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                                <th>@Html.DisplayNameFor(model => model.Category)</th>
+                                <th>@Html.DisplayNameFor(model => model.User)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Body)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.User.Email)</td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                                        @if (isAdmin || (isMember && item.UserId == User.Identity?.Name))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <ul class="pagination-list">
                 <li><a href="#" class="active">01</a></li>

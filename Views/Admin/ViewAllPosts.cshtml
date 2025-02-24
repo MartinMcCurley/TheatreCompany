@@ -42,9 +42,9 @@
                     <p>@Html.DisplayFor(modelItem => item.Body)</p>
                 </td>
                 <td>
-                    <p>@Html.ActionLink("Details", "PostDetails", new { id = item.PostId })</p>
-                    <p>@Html.ActionLink("Edit", "EditPost", new { id = item.PostId })</p>
-                    <p>@Html.ActionLink("Delete", "DeletePost", new { id = item.PostId })</p>
+                    <a asp-action="EditPost" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="PostDetails" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                    <a asp-action="DeletePost" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

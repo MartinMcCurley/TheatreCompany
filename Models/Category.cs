@@ -12,13 +12,16 @@ namespace TheatreCompany.Models
         [Key]
         public int CategoryId { get; set; }
 
-        [Display(Name ="Category")]
-        public string Name { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; } = string.Empty;
+
+        public string? Description { get; set; }
 
         //========================
         // Navigational Properties
         //========================
         // This is a list of posts that belong to Category
-        public List<Post> Posts { get; set; }
+        public ICollection<Post> Posts { get; set; } = new List<Post>();
     }
 }

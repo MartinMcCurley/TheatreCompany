@@ -1,12 +1,11 @@
 ﻿@{
-    ViewBag.Title = "Confirm Email";
+    ViewData["Title"] = "Confirm Email";
 }
-<div id="content">
-    <h2>@ViewBag.Title.</h2>
-    <div>
-        <p>
-            Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-        </p>
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <div class="alert alert-success">
+        Thank you for confirming your email. Please <a asp-controller="Account" asp-action="Login">click here to log in</a>.
     </div>
 </div>
 

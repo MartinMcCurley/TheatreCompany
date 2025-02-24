@@ -1,152 +1,136 @@
-﻿using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System;
 using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using TheatreCompany.Models;
+using TheatreCompany.Data;
 
 namespace TheatreCompany.Controllers
 {
-    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
+    [Authorize]
     public class CommentsController : Controller
     {
-        private TheatreCompanyDbContext db = new TheatreCompanyDbContext();
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        //// GET: Comments
-        //public ActionResult Index()
-        //{
-        //    var comments = db.Comments.Include(c => c.Post).Include(c => c.User);
-        //    return View(comments.ToList());
-        //}
-
-        // GET: Comments
-        public ActionResult Index()
+        public CommentsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            var comments = db.Comments.Include(c => c.Post).Include(c => c.User);
-            if (User.IsInRole("Member"))
-            {
-                return View(comments.ToList().Where(p => p.UserId == User.Identity.GetUserId()));
-            }
-            return View(comments.ToList());
+            _context = context;
+            _userManager = userManager;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var comments = await _context.Comments
+                .Include(c => c.Post)
+                .Include(c => c.User)
+                .ToListAsync();
+            return View(comments);
+        }
 
-        // GET: Comments/Details/5
-        public ActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Comment comment = db.Comments.Find(id);
+
+            var comment = await _context.Comments
+                .Include(c => c.Post)
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (comment == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
+
             return View(comment);
         }
 
-        // GET: Comments/Create
-        public ActionResult Create()
-        {
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
-        }
-
-        // POST: Comments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CommentId,Body,UserId,PostId")] Comment comment)
+        public async Task<IActionResult> Create([Bind("PostId,Content")] Comment comment)
         {
             if (ModelState.IsValid)
             {
-                comment.UserId = User.Identity.GetUserId();
+                var user = await _userManager.GetUserAsync(User);
+                comment.UserId = user.Id;
+                comment.CreatedAt = DateTime.UtcNow;
 
-                db.Comments.Add(comment);
-                db.SaveChanges();
-                return RedirectToAction("Details", "Posts", new { id = comment.PostId });
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", comment.UserId);
             return View(comment);
         }
 
-        // GET: Comments/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", comment.UserId);
-            return View(comment);
-        }
-
-        // POST: Comments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentId,Body,UserId,PostId")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Content,PostId,UserId,CreatedAt")] Comment comment)
         {
+            if (id != comment.Id)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (comment.UserId != user.Id && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+
             if (ModelState.IsValid)
             {
-                db.Entry(comment).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    _context.Update(comment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CommentExists(comment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            ViewBag.PostId = new SelectList(db.Posts, "PostId", "Title", comment.PostId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", comment.UserId);
             return View(comment);
         }
 
-        // GET: Comments/Delete/5
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Comment comment = db.Comments.Find(id);
+            var comment = await _context.Comments.FindAsync(id);
             if (comment == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(comment);
-        }
 
-        // POST: Comments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Comment comment = db.Comments.Find(id);
-            db.Comments.Remove(comment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            var user = await _userManager.GetUserAsync(User);
+            if (comment.UserId != user.Id && !User.IsInRole("Admin"))
             {
-                db.Dispose();
+                return Forbid();
             }
-            base.Dispose(disposing);
+
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool CommentExists(int id)
+        {
+            return _context.Comments.Any(e => e.Id == id);
         }
     }
 }

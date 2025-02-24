@@ -1,279 +1,186 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Data.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using TheatreCompany.Models;
-using System.Net;
+using TheatreCompany.Data;
 
 namespace TheatreCompany.Controllers
 {
-    [Authorize(Roles = "Admin, Member")] // Allows both to access this Controller
+    [Authorize(Roles = "Member")]
     public class MemberController : Controller
     {
-        // Instance of the database
-        private TheatreCompanyDbContext db = new TheatreCompanyDbContext();
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        // GET: Posts
-        // The index action is called when registered users click the link "My Posts"
-        // This method is returning a list of posts that were created by the logged in user (using userId)
-        [Authorize(Roles = "Member")] // Only registered user as member role can access this method
-        public ActionResult Index()
+        public MemberController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            // Select all the posts from the posts table including foreign keys category and User
-            var posts = db.Posts
+            _context = context;
+            _userManager = userManager;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var posts = await _context.Posts
                 .Include(p => p.Category)
-                .Include(p => p.User);
+                .Include(p => p.User)
+                .Where(p => p.UserId == user.Id)
+                .ToListAsync();
 
-            // Get the id of the logged in user using IDENTITY. User Id is a string
-            var userId = User.Identity.GetUserId();
-
-            // From list of posts from posts table sekect only those which == the logged in user and return the posts
-            posts = posts.Where(p => p.UserId == userId);
-
-            // Send ther list of posts to the Index view in the Members subfolder
-            return View(posts.ToList());
+            return View(posts);
         }
 
-        // GET: Posts/Details/5
-        public ActionResult Details(int? id) // ? creates a nullable variable
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            // Find a post in the post table by id
-            Post post = db.Posts.Find(id);
+            var post = await _context.Posts
+                .Include(p => p.Category)
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                    .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            // If post doesnt exist then return error
             if (post == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
-            // Otherwise send the post to the Details view and display the values stroed in the properties
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (post.UserId != currentUser.Id)
+            {
+                return Forbid();
+            }
+
             return View(post);
         }
 
-        // GET: Posts/Edit/5
-        // This method returns the edit form to the browser w/ an instance of post for user to make changes
-        public ActionResult Edit(int? id)
+        public async Task<IActionResult> Create()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            // Find post by an Id in the posts table
-            Post post = db.Posts.Find(id);
-
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
-
-            // Get list of categories from Categories table and send the list to view using ViewBag
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
-
-            // Also send the post to ther Edit View where the user can change details of the post
-            return View(post);
+            ViewData["CategoryId"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Categories, "Id", "Name");
+            return View();
         }
 
-        // POST: Posts/Edit/5
-        // This method gets the edited/modified post and updates the changes in the database
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostId,Title,Description,Location,Price,CategoryId")] Post post)
+        public async Task<IActionResult> Create([Bind("Title,Content,CategoryId")] Post post)
         {
-            // As long as passed post isnt null then it is updated in the databse
             if (ModelState.IsValid)
             {
-                // Gets the id of the user that is logged in the system and assigned it as a foreign key in the post
-                post.UserId = User.Identity.GetUserId();
-                // Updates the database
-                db.Entry(post).State = EntityState.Modified;
-                // Saves changes to the database
-                db.SaveChanges();
-                // Redirects user to index action in membercontroller which displays list of posts
-                return RedirectToAction("Index");
-            }
-            // Otherwise if the post parameter is null then send the list of categories back to the edit form
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
+                var user = await _userManager.GetUserAsync(User);
+                post.UserId = user.Id;
+                post.CreatedAt = DateTime.UtcNow;
 
-            // Return the post to the edit form
+                _context.Add(post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["CategoryId"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Categories, "Id", "Name", post.CategoryId);
             return View(post);
         }
 
-        // GET: Posts/Delete/5
-        // This method will delete a post by id
-        public ActionResult Delete(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            // If id is null return error
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
 
-            // First find a post in the posts tabke by id
-            Post post = db.Posts.Find(id);
-
-            // Then find the post category by searching the categories table by categoryid which is the posts foreign key
-            var category = db.Categories.Find(post.CategoryId);
-
-            // Assign the category to the category navigational property so that we can display the category name
-            post.Category = category;
-
-            // If the post is a null object then return a not found error message
+            var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
-                return HttpNotFound();
-            };
+                return NotFound();
+            }
 
+            var user = await _userManager.GetUserAsync(User);
+            if (post.UserId != user.Id)
+            {
+                return Forbid();
+            }
+
+            ViewData["CategoryId"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Categories, "Id", "Name", post.CategoryId);
             return View(post);
         }
 
-        // POST: Posts/Delete/5
-        [HttpPost, ActionName("Delete")] // This is IMPORTANT
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            // Find post by id in posts table
-            Post post = db.Posts.Find(id);
-
-            // Remove post from the posts table
-            db.Posts.Remove(post);
-
-            // Save changes in the database
-            db.SaveChanges();
-
-            // Redirect to the index action in the membercontroller
-            return RedirectToAction("Index");
-        }
-
-        // GET: Posts/Create
-        public ActionResult Create()
-        {
-            // Send the list of categories to the viewe using ViewBag so user can select from dropdown box
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name");
-
-            // Return the Create view to the browser
-            return View();
-        }
-
-        // POST: Posts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PostId,Title,Description,Location,Price,CategoryId")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,CategoryId,UserId,CreatedAt")] Post post)
         {
-            // If parameter is not null
-            if(ModelState.IsValid)
+            if (id != post.Id)
             {
-
-                // Assign registered userid as foreign key as this is who created the post
-                post.UserId = User.Identity.GetUserId();
-
-                // Add the post to the posts tables
-                db.Posts.Add(post);
-
-                // Save changes in the database
-                db.SaveChanges();
-
-                // Return to index action in membercontroller
-                return RedirectToAction("Index");
-
+                return NotFound();
             }
 
-            // If the parameter post is null then send the list categories back to the create view and try to create post again
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", post.CategoryId);
+            var user = await _userManager.GetUserAsync(User);
+            if (post.UserId != user.Id)
+            {
+                return Forbid();
+            }
 
-            // Send the post back to the create view
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(post);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PostExists(post.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["CategoryId"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Categories, "Id", "Name", post.CategoryId);
             return View(post);
         }
-        
-        /*=================================================
-         * Do I need the rest of this?? Keep until complete
-         * ================================================
-         * 
-        // GET: Member
-        public ActionResult Index()
-        {
-            return View();
-        }
 
-        // GET: Member/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Member/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Member/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
             {
-                // TODO: Add insert logic here
+                return NotFound();
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
+            var user = await _userManager.GetUserAsync(User);
+            if (post.UserId != user.Id)
             {
-                return View();
+                return Forbid();
             }
+
+            _context.Posts.Remove(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Member/Edit/5
-        public ActionResult Edit(int id)
+        private bool PostExists(int id)
         {
-            return View();
+            return _context.Posts.Any(e => e.Id == id);
         }
-
-        // POST: Member/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Member/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Member/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
     }
 }
